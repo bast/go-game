@@ -3,6 +3,7 @@ package main
 
 import (
 	"fmt"
+	"regexp"
 )
 
 // Letters for quick lookup.
@@ -53,11 +54,11 @@ func (move Move) String() string {
 // The board is just a cache of moves. We can recompute the board from
 // the moves.
 type Game struct {
-	Size  int
-	Moves []Move
+	BoardSize int
+	Board     map[Pos]Stone
+	Moves     []Move
 	// Here we should have a stack (or slice) of boards so that we have
 	// a history of previous board states.
-	Board map[Pos]Stone
 
 	// + We need to keep score somehow. (Number of captured stones for
 	// each player.)
@@ -80,17 +81,20 @@ func (game *Game) PrintBoard() {
 
 	fmt.Println("   " + BoardLetters)
 
-	for y := game.Size; y >= 0; y-- {
+	for y := game.BoardSize; y >= 0; y-- {
 		line := ""
-		for x := 0; x < game.Size; x++ {
+		for x := 0; x < game.BoardSize; x++ {
 			line += fmt.Sprintf("%c", stoneChars[game.Board[Pos{x, y}]])
 		}
 		fmt.Printf("%2d %s\n", y+1, line)
 	}
 }
 
-func NewGame(size int) Game {
-	return Game{Size: size, Board: make(map[Pos]Stone)}
+func NewGame(boardSize int) Game {
+	return Game{
+		BoardSize: boardSize,
+		Board:     make(map[Pos]Stone),
+	}
 }
 
 func main() {
