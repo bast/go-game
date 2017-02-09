@@ -114,6 +114,12 @@ type Move struct {
 }
 ```
 
+Since the values are the same for moves and stones performing a move is straight forward:
+
+```go
+board[move.Pos] = move.Action
+```
+
 A sequence of moves can be a slice:
 
 ```go
@@ -145,10 +151,10 @@ The GUI can call functions in the game engine to do things like:
 
 * Perform a move. Same return value as before.
 
-* Ask for a list of liberties for a give stone or every stone on the board.
+* Ask for a list of liberties for a given stone or for every stone on the board.
 
 * Is the game over? (No more valid moves?)
 
 * What's the score?
 
-In addition there should be utility functions to do things like convert between strings and `Move` slices.
+In addition there should be utility functions to do things like converting between strings and `Move` slices.
