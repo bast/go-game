@@ -85,7 +85,7 @@ func (game *Game) PrintBoard() {
 
 	fmt.Println("   " + BoardLetters)
 
-	for y := game.Height; y >= 0; y-- {
+	for y := game.Height - 1; y >= 0; y-- {
 		line := ""
 		for x := 0; x < game.Width; x++ {
 			line += fmt.Sprintf("%c", stoneChars[game.Board[Pos{x, y}]])
