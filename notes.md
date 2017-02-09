@@ -24,7 +24,7 @@ This means a complete board size can be represented as a board size and a
 sequence of moves. This can be expressed very compactly:
 
 ```
-19x19 BA9 WB12 BC2
+19x19 bA9 wB12 bC2
 ```
 
 This translates to:
@@ -38,18 +38,20 @@ Using a different separator we can put the whole game in a URL. This would
 allow for linking to an ongoing game, for example:
 
 ```
-https://go-game.somedomain/game/19x19,BA9,WB12,BC2
+https://go-game.somedomain/game/19x19,bA9,wB12,bC2
 ```
 
 Some refinement may be needed, for example:
 
 * Since the board is square we could simply say "19", but "19x19" makes it clear that this is a board size.
 
-* The double letters makes the moves a bit hard to read. For example it's easy to misread "BA9" as position "A9".
+* The double letters makes the moves a bit hard to read. For example it's easy to misread "bA9" as position "A9".
 
 * Should the moves be case insensitive?
 
-* The letter "C" could be used for a capture.
+* The letter "c" could be used for a capture.
+
+Should we allow non-square boards?
 
 
 ## Data Structures
@@ -81,6 +83,9 @@ const (
 
 `Clear` is used for a position where there is no stone. (There may be a better
 name for this.)
+
+Radovan: suggest word `Empty` - I am now reading a book about Scientology and have
+strange associations with the word `Clear`.
 
 The values of `Black` and `White` are arbitrary, but since black always starts
 it makes some kind of sense for it to have the lowest value.
@@ -164,6 +169,8 @@ The GUI can call functions in the game engine to do things like:
   (cycle)".
 
 * Perform a move. Same return value as before.
+
+* Perform a dry-run move. This can be used to visualize the effect of a move.
 
 * Ask for a list of liberties for a given stone or for every stone on the board.
 
