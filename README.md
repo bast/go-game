@@ -1,5 +1,5 @@
 # go-game
 
-Go game written in go for the browser.
+Go game written in Go for the browser.
 
-![Example of 7x7 Go board.](board.svg)
+- [Example board](https://github.com/bast/go-game/blob/master/board.svg)
