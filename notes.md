@@ -182,6 +182,9 @@ The GUI can call functions in the game engine to do things like:
 
 * Ask for a list of liberties for a given stone or for every stone on the board.
 
+* Ask for a list of all stones currently on the board. This returns a
+  slice of moves in the order they were placed on the board.
+
 * Is the game over? (No more valid moves?)
 
 * What's the score?
