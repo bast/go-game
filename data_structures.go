@@ -17,7 +17,7 @@ type Stone int
 
 const (
 	// Stone colors. Used for board state.
-	Clear = 0 // No stone here.
+	Empty = 0 // No stone here.
 	Black = 1
 	White = 2
 

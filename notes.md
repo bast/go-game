@@ -53,16 +53,17 @@ This allows you to bookmark an ongoing game.
 
 Some notes:
 
-* Since the board is square we could simply say "19", but "19x19" makes it clear that this is a board size.
+* Since the board is square we could simply say "19", but "19x19"
+  makes it clear that this is a board size.
 
-* The double letters makes the moves a bit hard to read. For example it's easy to misread "bA9" as position "A9".
+* The double letters makes the moves a bit hard to read. For example
+  it's easy to misread "bA9" as position "A9".
 
 * Should the moves be case insensitive?
 
 * The letter "c" could be used for a capture.
 
 * Should we allow non-square boards?
-
 
 
 ## Data Structures
@@ -86,17 +87,13 @@ There are three possible values:
 
 ```go
 const (
-  Clear = 0
+  Empty = 0
   Black = 1
   White = 2
 )
 ```
 
-`Clear` is used for a position where there is no stone. (There may be a better
-name for this.)
-
-Radovan: suggest word `Empty` - I am now reading a book about Scientology and have
-strange associations with the word `Clear`.
+`Empty` is used for a position where there is no stone.
 
 The values of `Black` and `White` are arbitrary, but since black always starts
 it makes some kind of sense for it to have the lowest value.
