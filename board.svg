@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<svg width="1000" height="1000">
+  <!--
+  "m" (or "M") means "moveto"
+  Others are "H" (horizontal) and "V" (vertical)
+  The first coordinate is absolute, the rest are relative.
+
+  "m 10,10 h 200" (move to x,y then move horizontally by 200)
+  -->
+  <g transform="translate(100 100)">
+    <g id="board">
+      <rect
+        style="fill:#d6b489;"
+        x="0"
+        y="0"
+        width="800"
+        height="800"
+      />
+
+      <!-- Horizontal lines -->
+      <!--
+      <path d="m 100,100 h 600" style="stroke:#221a18;stroke-width:7;"/>
+      <path d="m 100,200 h 600 " style="stroke:#221a18;stroke-width:7;"/>
+      <path d="m 100,300 h 600 " style="stroke:#221a18;stroke-width:7;"/>
+      <path d="m 100,400 h 600 " style="stroke:#221a18;stroke-width:7;"/>
+      <path d="m 100,500 h 600 " style="stroke:#221a18;stroke-width:7;"/>
+      <path d="m 100,600 h 600 " style="stroke:#221a18;stroke-width:7;"/>
+      <path d="m 100,700 h 600 " style="stroke:#221a18;stroke-width:7;"/>
+
+      <!-- Vertical lines -->
+      <!--
+      <path d="m 100,100 v 600 " style="stroke:#221a18;stroke-width:7;"/>
+      <path d="m 200,100 v 600 " style="stroke:#221a18;stroke-width:7;"/>
+      <path d="m 300,100 v 600 " style="stroke:#221a18;stroke-width:7;"/>
+      <path d="m 400,100 v 600 " style="stroke:#221a18;stroke-width:7;"/>
+      <path d="m 500,100 v 600 " style="stroke:#221a18;stroke-width:7;"/>
+      <path d="m 600,100 v 600 " style="stroke:#221a18;stroke-width:7;"/>
+      <path d="m 700,100 v 600 " style="stroke:#221a18;stroke-width:7;"/>
+      -->
+
+      <g id="board-boxes">
+        <!-- First row -->
+        <rect x="100" y="100" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="200" y="100" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="300" y="100" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="400" y="100" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="500" y="100" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="600" y="100" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+
+        <!-- Second row -->
+        <rect x="100" y="200" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="200" y="200" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="300" y="200" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="400" y="200" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="500" y="200" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="600" y="200" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+
+        <rect x="100" y="300" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="200" y="300" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="300" y="300" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="400" y="300" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="500" y="300" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="600" y="300" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+
+        <rect x="100" y="400" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="200" y="400" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="300" y="400" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="400" y="400" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="500" y="400" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="600" y="400" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+
+        <rect x="100" y="500" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="200" y="500" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="300" y="500" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="400" y="500" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="500" y="500" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="600" y="500" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+
+        <rect x="100" y="600" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="200" y="600" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="300" y="600" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="400" y="600" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="500" y="600" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+        <rect x="600" y="600" width="100" height="100" fill="none" style="stroke:#221a18;stroke-width:7;"/>
+      </g>
+
+      <!--
+      <g id="board-numbers">
+      -->
+
+      <!-- Dot -->
+      <circle cx="400" cy="400" r="12.5" style="stroke:#221a18;"/>
+    </g>
+    <g id="stones">
+      <!-- Black stone -->
+      <g>
+        <circle cx="210" cy="210" r="40" style="fill:#000000;opacity:0.14;"/>
+        <circle cx="200" cy="200" r="40" style="fill:#000000;"/>
+      </g>
+      <!-- White stone -->
+      <g>
+        <circle cx="310" cy="210" r="40" style="fill:#000000;opacity:0.14;"/>
+        <circle cx="300" cy="200" r="40" style="fill:#ffffff;"/>
+      </g>
+    </g>
+</svg>
