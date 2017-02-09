@@ -9,7 +9,7 @@ import (
 // These are the letters marked on top of the board.  "I" is
 // always left out, likely to avoid confusion with "1".
 const BoardLetters = "ABCDEFGHJKLMNOPQRST"
-const ColorChars = "CBW"
+const ColorChars = "cbw"
 
 // Here it would be nice if the type system allows us to say
 // "integer with one of these value: 0, 1, 2.
