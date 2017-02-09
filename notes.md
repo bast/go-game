@@ -3,10 +3,11 @@
 
 ## Board Size
 
-According to http://senseis.xmp.net/?DifferentSizedBoards common board sizes
-are 5x5, 6x6, 7x7, 9x9, 11x11, 13x13, 15x15, 17x17 and 19x19. The code should
-accept anything from 1x1 (or perhaps even 0x0) and up, but in the GUI it would
-make more sense to have a list to pick from.
+According to [Sensei's Library](http://senseis.xmp.net/?DifferentSizedBoards)
+common board sizes are 5x5, 6x6, 7x7, 9x9, 11x11, 13x13, 15x15, 17x17
+and 19x19. The code should accept anything from 1x1 (or perhaps even
+0x0) and up, but in the GUI it would make more sense to have a list to
+pick from.
 
 
 ## Moves
@@ -20,28 +21,37 @@ In addition a capture results in an implicit move:
 
 * capture a piece
 
-This means a complete board size can be represented as a board size and a
+This means a complete game can be represented as a board size and a
 sequence of moves. This can be expressed very compactly:
 
 ```
 19x19 bA9 wB12 bC2
 ```
 
-This translates to:
+which translates to:
 
 * board size is 19x19
 * place black stone at A 19
 * place white stone at B 12
 * place black stone at C 2
 
-Using a different separator we can put the whole game in a URL. This would
-allow for linking to an ongoing game, for example:
+This is similar to algebraic notation used in chess, where for example
+"Be5" means "bishop to e5".
+
+Unlike in chess letters for positions are uppercase since that is how
+they're commonly marked on the board. Lowercase letters are used for
+colors to make them stand out. For example "BA6" could easily be
+misread as position "B6".
+
+Using a different separator we can put the whole game in a URL:
 
 ```
 https://go-game.somedomain/game/19x19,bA9,wB12,bC2
 ```
 
-Some refinement may be needed, for example:
+This allows you to bookmark an ongoing game.
+
+Some notes:
 
 * Since the board is square we could simply say "19", but "19x19" makes it clear that this is a board size.
 
@@ -51,7 +61,8 @@ Some refinement may be needed, for example:
 
 * The letter "c" could be used for a capture.
 
-Should we allow non-square boards?
+* Should we allow non-square boards?
+
 
 
 ## Data Structures
