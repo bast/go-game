@@ -40,7 +40,7 @@ Some refinement may be needed, for example:
 
 * Since the board is square we could simply say "19", but "19x19" makes it clear that this is a board size.
 
-* The double letters makes the moves a bit hard to read.
+* The double letters makes the moves a bit hard to read. For example it's easy to misread "BA9" as position "A9".
 
 * Should the moves be case insensitive?
 
