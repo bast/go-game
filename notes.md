@@ -56,11 +56,6 @@ Some notes:
 * Since the board is square we could simply say "19", but "19x19"
   makes it clear that this is a board size.
 
-* Should we allow non-square boards? This is only very rarely used for
-  experimental games and complicated the code. (We could use a `Pos`
-  struct for the board size, although using explicit `width` and
-  `height` would probably be more readable.
-
 * The double letters makes the moves a bit hard to read. For example
   it's easy to misread "bA9" as position "A9".
 

@@ -3,7 +3,6 @@ package main
 
 import (
 	"fmt"
-	"regexp"
 )
 
 // Letters for quick lookup.
@@ -36,6 +35,11 @@ type Pos struct {
 	Y int // Bottom to top, 0-18 (ABCDEFGHJKLMNOPQRST.)
 }
 
+type BoardSize struct {
+	Width  int
+	Height int
+}
+
 // A move. (Place or capture stone.)
 type Move struct {
 	Action Stone // (Hmm, this looks a bit weird here.)
@@ -54,9 +58,9 @@ func (move Move) String() string {
 // The board is just a cache of moves. We can recompute the board from
 // the moves.
 type Game struct {
-	BoardSize int
-	Board     map[Pos]Stone
-	Moves     []Move
+	BoardSize
+	Board map[Pos]Stone
+	Moves []Move
 	// Here we should have a stack (or slice) of boards so that we have
 	// a history of previous board states.
 
@@ -81,16 +85,16 @@ func (game *Game) PrintBoard() {
 
 	fmt.Println("   " + BoardLetters)
 
-	for y := game.BoardSize; y >= 0; y-- {
+	for y := game.Height; y >= 0; y-- {
 		line := ""
-		for x := 0; x < game.BoardSize; x++ {
+		for x := 0; x < game.Width; x++ {
 			line += fmt.Sprintf("%c", stoneChars[game.Board[Pos{x, y}]])
 		}
 		fmt.Printf("%2d %s\n", y+1, line)
 	}
 }
 
-func NewGame(boardSize int) Game {
+func NewGame(boardSize BoardSize) Game {
 	return Game{
 		BoardSize: boardSize,
 		Board:     make(map[Pos]Stone),
@@ -98,7 +102,7 @@ func NewGame(boardSize int) Game {
 }
 
 func main() {
-	game := NewGame(19)
+	game := NewGame(BoardSize{19, 19})
 	moves := []Move{{PlaceBlack, Pos{0, 0}}, {PlaceWhite, Pos{1, 6}}}
 	game.AddMoves(moves)
 
