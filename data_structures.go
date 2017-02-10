@@ -36,7 +36,7 @@ type Pos struct {
 	Y int // Bottom to top, 0-18 (ABCDEFGHJKLMNOPQRST.)
 }
 
-type BoardSize struct {
+type Size struct {
 	Width  int
 	Height int
 }
@@ -71,7 +71,7 @@ func FormatMove(move Move) string {
 // The board is just a cache of moves. We can recompute the board from
 // the moves.
 type Game struct {
-	BoardSize
+	Size
 	Board map[Pos]Stone
 	Moves []Move
 	// Here we should have a stack (or slice) of boards so that we have
@@ -106,15 +106,15 @@ func (game *Game) PrintBoard() {
 	}
 }
 
-func NewGame(boardSize BoardSize) Game {
+func NewGame(boardSize Size) Game {
 	return Game{
-		BoardSize: boardSize,
-		Board:     make(map[Pos]Stone),
+		Size:  boardSize,
+		Board: make(map[Pos]Stone),
 	}
 }
 
 func main() {
-	game := NewGame(BoardSize{19, 19})
+	game := NewGame(Size{19, 19})
 	moves := []Move{{PlaceBlack, Pos{0, 0}}, {PlaceWhite, Pos{1, 6}}}
 	fmt.Println()
 	fmt.Println("Moves:", moves)
