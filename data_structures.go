@@ -2,6 +2,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 )
 
@@ -47,6 +48,18 @@ type Move struct {
 }
 
 func (move Move) String() string {
+	return FormatMove(move)
+}
+
+func ParseMove(text string) (Move, error) {
+	// letter := text[0]
+	// number := text[1:len(text)-1]
+	// action := text[len(text)-1]
+
+	return Move{}, errors.New("Parser not written")
+}
+
+func FormatMove(move Move) string {
 	// Todo: check if values are out of range?
 	letter := BoardLetters[move.X]
 	number := move.Y + 1
