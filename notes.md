@@ -25,39 +25,57 @@ This means a complete game can be represented as a board size and a
 sequence of moves. This can be expressed very compactly:
 
 ```
-19x19 bA9 wB12 bC2
+19x19 A9b B12w C2b
 ```
 
 which translates to:
 
 * board size is 19x19
-* place black stone at A 19
-* place white stone at B 12
-* place black stone at C 2
+* place black stone at A19
+* place white stone at B12
+* place black stone at C2
 
-This is similar to algebraic notation used in chess, where for example
+This is similar to algebraic notation used in chess where for example
 "Be5" means "bishop to e5".
 
-Unlike in chess letters for positions are uppercase since that is how
-they're commonly marked on the board. Lowercase letters are used for
-colors to make them stand out. For example "BA6" could easily be
-misread as position "B6".
+* The order "letter followed by number" is standard Go notation and
+  what people are used to.
 
-Using a different separator we can put the whole game in a URL:
+* Unlike chess position letters (A-T) are written in uppercase since
+  this is how they are traditionally marked on the board.
 
-```
-https://go-game.somedomain/game/19x19,bA9,wB12,bC2
-```
+* To avoid confusion with letters stone colors are placed at the end
+  of the expression. Since [we tend to notice only the first and last
+  letter of a word](https://en.wikipedia.org/wiki/Typoglycemia) it
+  would be easy to misread "BA6" as the position "B6". This is not
+  true of "A6B".
 
-This allows you to bookmark an ongoing game.
+* For additional clarity the stone color is lowercased, as in "A6b".
+
+* The letter "c" (as in "A6c") is used to denote a capture. It is not
+  normally used in move lists since it can be computed but it is used
+  internally in the code so it's useful to have a notation for it.
+
+* Since Go moves alternate between black and white we could in
+  principle leave out "b" and "w" and write "A9 B12 C2". There are two
+  problems with this. First, less experienced players are sometimes
+  given more than one stone at the start of the game to give white a
+  handicap, as in: "C2b F9b C3b C9w". This would require extra
+  notation anyway. Second, including stone color means you don't have
+  to keep track of alternating colors when you read a game. Thus
+  parsing a move is context free.
+
+* Board size always includes both width and height (19x19 rather than
+  just 19). This makes it visually clearer that the value is a board
+  size and also allows for experimental non-square boards.
 
 Some notes:
 
-* Should the moves be case insensitive? (The double letters makes the
-  moves a bit hard to read. For example it's easy to misread "bA9" as
-  position "A9".)
+* Using a different separator we can put the whole game in a URL:
+  `https://go-game.somedomain/game/19x19,A9b,B12w,C2b`. This allows
+  you to bookmark an ongoing game.
 
-* The letter "c" could be used for a capture.
+* Should 19x19 mean "HEIGHTxWIDTH" since the letter comes first?
 
 * Should we call this SGN (Simple Go Notation)?
 

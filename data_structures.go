@@ -48,11 +48,11 @@ type Move struct {
 
 func (move Move) String() string {
 	// Todo: check if values are out of range?
-	color := ActionChars[move.Action]
 	letter := BoardLetters[move.X]
 	number := move.Y + 1
+	stoneColor := ActionChars[move.Action]
 
-	return fmt.Sprintf("%c%c%d", color, letter, number)
+	return fmt.Sprintf("%c%d%c", letter, number, stoneColor)
 }
 
 // The board is just a cache of moves. We can recompute the board from
