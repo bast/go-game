@@ -75,7 +75,6 @@ func (game *Game) AddMove(move Move) {
 
 func (game *Game) AddMoves(moves []Move) {
 	for _, move := range moves {
-		fmt.Println(move)
 		game.AddMove(move)
 	}
 }
@@ -104,8 +103,10 @@ func NewGame(boardSize BoardSize) Game {
 func main() {
 	game := NewGame(BoardSize{19, 19})
 	moves := []Move{{PlaceBlack, Pos{0, 0}}, {PlaceWhite, Pos{1, 6}}}
+	fmt.Println()
+	fmt.Println("Moves:", moves)
+	fmt.Println()
 	game.AddMoves(moves)
-
 	game.PrintBoard()
 
 	// fmt.Println(game.Board[Pos{}])
