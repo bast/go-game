@@ -41,14 +41,13 @@ This is similar to algebraic notation used in chess where for example
 * The order "letter followed by number" is standard Go notation and
   what people are used to.
 
-* Unlike chess position letters (A-T) are written in uppercase since
-  this is how they are traditionally marked on the board.
+* Position letters (A-T) are written in uppercase since this is how
+  they are traditionally marked on the board.
 
 * To avoid confusion with letters stone colors are placed at the end
   of the expression. Since [we tend to notice only the first and last
-  letter of a word](https://en.wikipedia.org/wiki/Typoglycemia) it
-  would be easy to misread "BA6" as the position "B6". This is not
-  true of "A6B".
+  letter of a word](https://en.wikipedia.org/wiki/Typoglycemia) "BA6"
+  could easily be misread as position "B6". This is not true of "A6B".
 
 * For additional clarity the stone color is lowercased, as in "A6b".
 
