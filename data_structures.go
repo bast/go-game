@@ -9,7 +9,7 @@ import (
 // These are the letters marked on top of the board.  "I" is
 // always left out, likely to avoid confusion with "1".
 const BoardLetters = "ABCDEFGHJKLMNOPQRST"
-const ColorChars = "cbw"
+const ActionChars = "cbw"
 
 // Here it would be nice if the type system allows us to say
 // "integer with one of these value: 0, 1, 2.
@@ -48,7 +48,7 @@ type Move struct {
 
 func (move Move) String() string {
 	// Todo: check if values are out of range?
-	color := ColorChars[move.Action]
+	color := ActionChars[move.Action]
 	letter := BoardLetters[move.X]
 	number := move.Y + 1
 
@@ -81,7 +81,7 @@ func (game *Game) AddMoves(moves []Move) {
 }
 
 func (game *Game) PrintBoard() {
-	stoneChars := ".BW"
+	stoneChars := ".bw"
 
 	fmt.Println("   " + BoardLetters)
 
