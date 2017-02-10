@@ -24,6 +24,62 @@
         height="800"
       />
 
+      <!-- Letters and numbers
+
+      I've manually nudged the values until they looked about centered. There must be a way to do this automatically.
+
+      Most Go boards have no letters or numbers so these should be optional. (We don't have to include them
+      in the first version of the game.)
+      -->
+
+      <g>
+        <text font-family="Verdana" font-size="50" x="108" y="65" text-anchor="middle" style="stroke:#221a18;">
+          A
+        </text>
+        <text font-family="Verdana" font-size="50" x="208" y="65" text-anchor="middle" style="stroke:#221a18;">
+          B
+        </text>
+        <text font-family="Verdana" font-size="50" x="308" y="65" text-anchor="middle" style="stroke:#221a18;">
+          C
+        </text>
+        <text font-family="Verdana" font-size="50" x="408" y="65" text-anchor="middle" style="stroke:#221a18;">
+          D
+        </text>
+        <text font-family="Verdana" font-size="50" x="508" y="65" text-anchor="middle" style="stroke:#221a18;">
+          E
+        </text>
+        <text font-family="Verdana" font-size="50" x="608" y="65" text-anchor="middle" style="stroke:#221a18;">
+          F
+        </text>
+        <text font-family="Verdana" font-size="50" x="708" y="65" text-anchor="middle" style="stroke:#221a18;">
+          G
+        </text>
+      </g>
+
+      <g>
+        <text font-family="Verdana" font-size="50" x="55" y="125" text-anchor="middle" style="stroke:#221a18;">
+          7
+        </text>
+        <text font-family="Verdana" font-size="50" x="55" y="225" text-anchor="middle" style="stroke:#221a18;">
+          6
+        </text>
+        <text font-family="Verdana" font-size="50" x="55" y="325" text-anchor="middle" style="stroke:#221a18;">
+          5
+        </text>
+        <text font-family="Verdana" font-size="50" x="55" y="425" text-anchor="middle" style="stroke:#221a18;">
+          4
+        </text>
+        <text font-family="Verdana" font-size="50" x="55" y="525" text-anchor="middle" style="stroke:#221a18;">
+          3
+        </text>
+        <text font-family="Verdana" font-size="50" x="55" y="625" text-anchor="middle" style="stroke:#221a18;">
+          2
+        </text>
+        <text font-family="Verdana" font-size="50" x="55" y="725" text-anchor="middle" style="stroke:#221a18;">
+          1
+        </text>
+      </g>
+
       <!-- Squares (lines). We're using rectangles here because paths
            wouldn't join up properly at the corners. -->
 
