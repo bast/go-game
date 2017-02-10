@@ -1,5 +1,6 @@
 # Notes
 
+* https://en.wikibooks.org/wiki/Go/Lesson_2:_Basic_Rules_and_Foundational_concepts
 
 ## Board Size
 
