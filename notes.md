@@ -53,13 +53,9 @@ This allows you to bookmark an ongoing game.
 
 Some notes:
 
-* Since the board is square we could simply say "19", but "19x19"
-  makes it clear that this is a board size.
-
-* The double letters makes the moves a bit hard to read. For example
-  it's easy to misread "bA9" as position "A9".
-
-* Should the moves be case insensitive?
+* Should the moves be case insensitive? (The double letters makes the
+  moves a bit hard to read. For example it's easy to misread "bA9" as
+  position "A9".)
 
 * The letter "c" could be used for a capture.
 
