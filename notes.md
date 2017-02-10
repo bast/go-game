@@ -214,11 +214,11 @@ some point.
 
 ## Tasks
 
-* Learn Go
+* (Both) Learn Go
 
-* Learn GopherJS
+* (Both) Learn GopherJS
 
-* Add letters and numbers to the SVG rendering. (Problems: how to
+* (Ole Martin) Add letters and numbers to the SVG rendering. (Problems: how to
   center the letters and numbers and how to get the right size and font.)
 
-* Write some code to generate the SVG from a board size and a list of moves.
+* (Ole Martin) Write some code to generate the SVG from a board size and a list of moves.
