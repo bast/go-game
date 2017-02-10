@@ -189,3 +189,9 @@ The GUI can call functions in the game engine to do things like:
 
 In addition there should be utility functions to do things like converting
 between strings and `Move` slices.
+
+
+## Board Rendering
+
+We may want to support [Kifu](https://en.wikipedia.org/wiki/Kifu) at
+some point.
