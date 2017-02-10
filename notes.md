@@ -63,6 +63,8 @@ Some notes:
 
 * The letter "c" could be used for a capture.
 
+* Should we call this SGN (Simple Go Notation)?
+
 
 ## Data Structures
 
