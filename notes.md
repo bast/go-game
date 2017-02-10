@@ -210,3 +210,15 @@ between strings and `Move` slices.
 
 We may want to support [Kifu](https://en.wikipedia.org/wiki/Kifu) at
 some point.
+
+
+## Tasks
+
+* Learn Go
+
+* Learn GopherJS
+
+* Add letters and numbers to the SVG rendering. (Problems: how to
+  center the letters and numbers and how to get the right size and font.)
+
+* Write some code to generate the SVG from a board size and a list of moves.
