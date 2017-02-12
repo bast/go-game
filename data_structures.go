@@ -23,15 +23,15 @@ const (
 	White = 2
 
 	// Moves. These correspond to board state making it easy to
-	// translate between the two. (A capture will clear that position on
+	// translate between the two. (A capture will clear that point on
 	// the board.)
 	Capture    = 0
 	PlaceBlack = 1
 	PlaceWhite = 2
 )
 
-// Position where a stone can be placed.
-type Pos struct {
+// Point where a stone can be placed.
+type Point struct {
 	X int // Left to right, 0-18 (marked as 1-19 on board.)
 	Y int // Bottom to top, 0-18 (ABCDEFGHJKLMNOPQRST.)
 }
@@ -44,7 +44,7 @@ type Size struct {
 // A move. (Place or capture stone.)
 type Move struct {
 	Action Stone // (Hmm, this looks a bit weird here.)
-	Pos
+	Point
 }
 
 func (move Move) String() string {
@@ -72,7 +72,7 @@ func FormatMove(move Move) string {
 // the moves.
 type Game struct {
 	Size
-	Board map[Pos]Stone
+	Board map[Point]Stone
 	Moves []Move
 	// Here we should have a stack (or slice) of boards so that we have
 	// a history of previous board states.
@@ -83,7 +83,7 @@ type Game struct {
 
 func (game *Game) AddMove(move Move) {
 	game.Moves = append(game.Moves, move)
-	game.Board[move.Pos] = move.Action
+	game.Board[move.Point] = move.Action
 }
 
 func (game *Game) AddMoves(moves []Move) {
@@ -100,7 +100,7 @@ func (game *Game) PrintBoard() {
 	for y := game.Height - 1; y >= 0; y-- {
 		line := ""
 		for x := 0; x < game.Width; x++ {
-			line += fmt.Sprintf("%c", stoneChars[game.Board[Pos{x, y}]])
+			line += fmt.Sprintf("%c", stoneChars[game.Board[Point{x, y}]])
 		}
 		fmt.Printf("%2d %s\n", y+1, line)
 	}
@@ -109,21 +109,21 @@ func (game *Game) PrintBoard() {
 func NewGame(boardSize Size) Game {
 	return Game{
 		Size:  boardSize,
-		Board: make(map[Pos]Stone),
+		Board: make(map[Point]Stone),
 	}
 }
 
 func main() {
 	game := NewGame(Size{19, 19})
-	moves := []Move{{PlaceBlack, Pos{0, 0}}, {PlaceWhite, Pos{1, 6}}}
+	moves := []Move{{PlaceBlack, Point{0, 0}}, {PlaceWhite, Point{1, 6}}}
 	fmt.Println()
 	fmt.Println("Moves:", moves)
 	fmt.Println()
 	game.AddMoves(moves)
 	game.PrintBoard()
 
-	// fmt.Println(game.Board[Pos{}])
-	// fmt.Println(game.Board[Pos{1, 1}])
+	// fmt.Println(game.Board[Point{}])
+	// fmt.Println(game.Board[Point{1, 1}])
 
 	// fmt.Println(moves)
 }

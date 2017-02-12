@@ -45,13 +45,13 @@ This is similar to algebraic notation used in chess where for example
 * The order "letter followed by number" is standard Go notation and
   what people are used to.
 
-* Position letters (A-T) are written in uppercase since this is how
-  they are traditionally marked on the board.
+* Point letters (A-T) are written in uppercase since this is how they
+  are traditionally marked on the board.
 
 * To avoid confusion with letters stone colors are placed at the end
   of the expression. Since [we tend to notice only the first and last
   letter of a word](https://en.wikipedia.org/wiki/Typoglycemia) "BA6"
-  could easily be misread as position "B6". This is not true of "A6B".
+  could easily be misread as point "B6". This is not true of "A6B".
 
 * For additional clarity the stone color is lowercased, as in "A6b".
 
@@ -85,10 +85,10 @@ Some notes:
 
 ## Data Structures
 
-A position on the board:
+A point on the board:
 
 ```go
-type Pos struct {
+type Point struct {
   X int
   Y int
 }
@@ -110,7 +110,7 @@ const (
 )
 ```
 
-`Empty` is used for a position where there is no stone.
+`Empty` is used for a point where there is no stone.
 
 The values of `Black` and `White` are arbitrary, but since black always starts
 it makes some kind of sense for it to have the lowest value.
@@ -118,13 +118,13 @@ it makes some kind of sense for it to have the lowest value.
 Using these building blocks the board can be represented as:
 
 ```go
-board := map[Pos]Stone
+board := map[Point]Stone
 ```
 
 Placing a stone:
 
 ```go
-board[Pos{1, 2}] = Black
+board[Point{1, 2}] = Black
 ```
 
 If a value is not in the map Go will return the default value, in this case 0.
@@ -149,7 +149,7 @@ the two. A move can be represented as:
 type Move struct {
   // Using "Stone" here is perhaps a bit confusing.
   Action Stone
-  Pos
+  Point
 }
 ```
 
@@ -157,13 +157,13 @@ Since the values are the same for moves and stones performing a move is
 straight forward:
 
 ```go
-board[move.Pos] = move.Action
+board[move.Point] = move.Action
 ```
 
 A sequence of moves can be a slice:
 
 ```go
-moves := []Move{{PlaceBlack, Pos{0, 0}}, {PlaceWhite, Pos{0, 1}}}
+moves := []Move{{PlaceBlack, Point{0, 0}}, {PlaceWhite, Point{0, 1}}}
 ```
 
 This can all be contained in a `Game` struct:
@@ -172,7 +172,7 @@ This can all be contained in a `Game` struct:
 type Game struct {
   Size int
   Moves []Move
-  Board map[Pos]Stone
+  Board map[Point]Stone
 }
 ```
 
