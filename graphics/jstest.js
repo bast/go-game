@@ -1,70 +1,113 @@
 var board = document.querySelector('.board');
 var background = document.querySelector('.background');
+var markings = document.querySelector('.markings');
 var stones = document.querySelector('.stones');
 
 var template = document.getElementById('board-template');
 
 
-function placeStar(x, y)
-{
-    var star = template.querySelector('.star').cloneNode(true);
-    star.setAttribute('cx', 50 + x * 100);
-    star.setAttribute('cy', 50 + y * 100);
-    background.appendChild(star);
-}
+function Board(width, height) {
+    var self = {};
 
-function drawBoard(width, height) {
-    var x, y, box;
+    self.width = width;
+    self.height = height;
 
-    var wood = template.querySelector('.wood').cloneNode(true);
-    wood.setAttribute('x', 0);
-    wood.setAttribute('y', 0);
-    wood.setAttribute('width', width * 100);
-    wood.setAttribute('height', height * 100);
-    background.appendChild(wood);
+    var scale = 100;
+    var margin = scale / 2;
 
-    var tbox = template.querySelector('.line');
-    for (y = 0; y < (height - 1); y++) {
-        for (x = 0; x < (width - 1); x++) {
-            box = tbox.cloneNode(true);
-            box.setAttribute('x', 50 + x * 100)
-            box.setAttribute('y', 50 + (height - y - 2) * 100)  // Why -2?
-            box.setAttribute('width', 100)
-            box.setAttribute('height', 100)
-            background.appendChild(box)
-        }
+    function screenX(x) {
+        return margin + (x * scale);
+    }
+    
+    function screenY(y) {
+        // Why -1?
+        var invY = margin + ((self.height - y - 1) * scale);
+        return invY;
     }
 
-    placeStar(3, 3);
-    placeStar(3, 9);
-    placeStar(3, 15);
+    function placeStar(x, y) {
+        var star = template.querySelector('.star').cloneNode(true);
+        star.setAttribute('cx', screenX(x));
+        star.setAttribute('cy', screenY(y));
+        markings.appendChild(star);
+    }
 
-    placeStar(9, 3);
-    placeStar(9, 9);
-    placeStar(9, 15);
+    function drawBoard() {
+        var x, y, box;
 
-    placeStar(15, 3);
-    placeStar(15, 9);
-    placeStar(15, 15);
+        var wood = template.querySelector('.wood').cloneNode(true);
+        wood.setAttribute('x', 0);
+        wood.setAttribute('y', 0);
+        wood.setAttribute('width', width * scale);
+        wood.setAttribute('height', height * scale);
+        background.appendChild(wood);
+        
+        var tbox = template.querySelector('.line');
+        for (y = 0; y < (height - 1); y++) {
+            for (x = 0; x < (width - 1); x++) {
+                box = tbox.cloneNode(true);
+                // y+1 here because the Y coordinates are flipped.
+                box.setAttribute('x', screenX(x))
+                box.setAttribute('y', screenY(y+1))
+                box.setAttribute('width', scale)
+                box.setAttribute('height', scale)
+                markings.appendChild(box)
+            }
+        }
+        
+        // Todo: these vary by board size.
+        placeStar(3, 3);
+        placeStar(3, 9);
+        placeStar(3, 15);
+        
+        placeStar(9, 3);
+        placeStar(9, 9);
+        placeStar(9, 15);
+        
+        placeStar(15, 3);
+        placeStar(15, 9);
+        placeStar(15, 15);
+        
+        var viewBox = '0 0 ' + (width * scale) + '  ' + (height * scale);
+        board.setAttribute('viewBox', viewBox);
+    }
 
-    var vw = width * 100;
-    var vh = height * 100;
-    var viewBox = '0 0 ' + vw + '  ' + vh;
-    board.setAttribute('viewBox', viewBox);
+    self.placeStone = function(x, y, color) {        
+        var stone = template.querySelector('.stone').cloneNode(true);
+        var tr = 'translate(' + screenX(x) + ', ' + screenY(y) + ')';
+        stone.setAttribute('transform', tr);
+        stone.setAttribute('class', 'stone ' + color);
+        stones.appendChild(stone);
+    }
+
+    drawBoard();
+
+    return self;
 }
 
-function placeStone(x, y, color)
-{
-    var stone = template.querySelector('.stone').cloneNode(true);
-    var screenX = 50 + x * 100;
-    var screenY = 50 + y * 100;
-    stone.setAttribute('transform', 'translate(' + screenX + ', ' + screenY + ')');
-    stone.setAttribute('class', 'stone ' + color);
-    console.log(stone);
-    stones.appendChild(stone);
-}
 
-drawBoard(19, 19);
-placeStone(10, 6, 'black');
-placeStone(2, 9, 'white');
-placeStone(4, 8, 'black');
+board = Board(19, 19);
+board.placeStone(15, 15, 'black');
+board.placeStone(3, 3, 'white');
+board.placeStone(15, 2, 'black');
+board.placeStone(3, 15, 'white');
+board.placeStone(5, 2, 'black');
+board.placeStone(8, 3, 'white');
+
+
+// placeStone(, ,'white');
+/*
+laceStone(, ,'black');
+placeStone(, ,'white');
+placeStone(, ,'black');
+placeStone(, ,'white');
+placeStone(, ,'black');
+placeStone(, ,'white');
+placeStone(, ,'black');
+placeStone(, ,'white');
+placeStone(, ,'black');
+placeStone(, ,'white');
+placeStone(, ,'black');
+placeStone(, ,'white');
+placeStone(, ,'black');
+*/
