@@ -95,7 +95,7 @@ func (game *Game) AddMoves(moves []Move) {
 func (game *Game) PrintBoard() {
 	stoneChars := ".bw"
 
-	fmt.Println("   " + BoardLetters)
+	fmt.Println("   " + BoardLetters[:game.Width])
 
 	for y := game.Height - 1; y >= 0; y-- {
 		line := ""
