@@ -4,6 +4,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"math/rand"
 )
 
 // Letters for quick lookup.
@@ -113,9 +114,30 @@ func NewGame(boardSize Size) Game {
 	}
 }
 
+// returns a list of random moves
+// the moves are not guaranteed to be valid
+// this function can place multiple stones on top of each other
+// this is used for debugging detection of invalid moves
+// and for implementing grouping and detection of dead groups
+func generate_random_moves(board_size int, num_moves int) []Move {
+	moves := []Move{}
+	for i := 0; i < num_moves; i++ {
+		random_color := rand.Intn(2) + 1
+		random_x := rand.Intn(board_size)
+		random_y := rand.Intn(board_size)
+		moves = append(moves, Move{Stone(random_color), Point{random_x, random_y}})
+	}
+	return moves
+}
+
 func main() {
-	game := NewGame(Size{19, 19})
-	moves := []Move{{PlaceBlack, Point{0, 0}}, {PlaceWhite, Point{1, 6}}}
+	board_size := 9
+
+	game := NewGame(Size{board_size, board_size})
+
+	// moves := []Move{{PlaceBlack, Point{0, 0}}, {PlaceWhite, Point{1, 6}}}
+	moves := generate_random_moves(board_size, 35)
+
 	fmt.Println()
 	fmt.Println("Moves:", moves)
 	fmt.Println()
