@@ -120,26 +120,24 @@ func NewGame(boardSize Size) Game {
 // this function can place multiple stones on top of each other
 // this is used for debugging detection of invalid moves
 // and for implementing grouping and detection of dead groups
-func generate_random_moves(board_size int, num_moves int) []Move {
+func (game *Game) generate_random_moves(num_moves int) []Move {
 	// rand.Seed(time.Now().UnixNano())
 
 	moves := []Move{}
 	for i := 0; i < num_moves; i++ {
 		random_stone := Stone(rand.Intn(2) + 1)  // either black or white stone
-		random_x := rand.Intn(board_size)
-		random_y := rand.Intn(board_size)
+		random_x := rand.Intn(game.Size.Width)
+		random_y := rand.Intn(game.Size.Height)
 		moves = append(moves, Move{random_stone, Point{random_x, random_y}})
 	}
 	return moves
 }
 
 func main() {
-	board_size := 9
-
-	game := NewGame(Size{board_size, board_size})
+	game := NewGame(Size{9, 11})
 
 	// moves := []Move{{PlaceBlack, Point{0, 0}}, {PlaceWhite, Point{1, 6}}}
-	moves := generate_random_moves(board_size, 35)
+	moves := game.generate_random_moves(35)
 
 	fmt.Println()
 	fmt.Println("Moves:", moves)
