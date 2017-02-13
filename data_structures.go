@@ -170,8 +170,7 @@ func (game *Game) find_group(group []Point, point Point, stone Stone, liberties 
 				return group, liberties, board_visited
 			}
 		}
-		// we append it in case it is not there already
-		// to avoid double counting of liberties
+		// this is a new libery so we add it to known liberties
 		liberties = append(liberties, point)
 		return group, liberties, board_visited
 	}
@@ -201,6 +200,8 @@ func (game *Game) find_group(group []Point, point Point, stone Stone, liberties 
 func (game *Game) findDeadGroups() {
 
 	board_visited := make([]bool, game.Width*game.Height)
+
+	// for debugging
 	board_num_liberties := make([]int, game.Width*game.Height)
 
 	group := []Point{}
@@ -224,13 +225,12 @@ func (game *Game) findDeadGroups() {
 	}
 	fmt.Println("\nliberties of groups:")
 	for y := game.Height - 1; y >= 0; y-- {
-		fmt.Print("   ")
 		for x := 0; x < game.Width; x++ {
 			num_liberties := board_num_liberties[y*game.Width+x]
 			if num_liberties == 0 {
-				fmt.Print("   ")
+				fmt.Print("  ")
 			} else {
-				fmt.Printf("%3d", board_num_liberties[y*game.Width+x])
+				fmt.Printf("%2d", board_num_liberties[y*game.Width+x])
 			}
 		}
 		fmt.Print("\n")
