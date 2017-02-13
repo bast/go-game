@@ -133,6 +133,30 @@ func (game *Game) generate_random_moves(num_moves int) []Move {
 	return moves
 }
 
+// finds up to four neighbors for a reference point (east, north, west, south)
+// does not check whether the reference point is actually on the board
+func (game *Game) findNeighbors(point Point) []Point {
+	neighbors := []Point{}
+	// east
+	if point.X < game.Size.Width {
+		neighbors = append(neighbors, Point{point.X + 1, point.Y})
+	}
+	// north
+	if point.Y < game.Size.Height {
+		neighbors = append(neighbors, Point{point.X, point.Y + 1})
+	}
+	// west
+	if point.X > 0 {
+		neighbors = append(neighbors, Point{point.X - 1, point.Y})
+	}
+	// south
+	if point.Y > 0 {
+		neighbors = append(neighbors, Point{point.X, point.Y - 1})
+	}
+	fmt.Println("Neighbors:", neighbors)
+	return neighbors
+}
+
 func main() {
 	game := NewGame(Size{9, 11})
 
