@@ -125,7 +125,7 @@ func (game *Game) generate_random_moves(num_moves int) []Move {
 
 	moves := []Move{}
 	for i := 0; i < num_moves; i++ {
-		random_stone := Stone(rand.Intn(2) + 1)  // either black or white stone
+		random_stone := Stone(rand.Intn(2) + 1) // either black or white stone
 		random_x := rand.Intn(game.Size.Width)
 		random_y := rand.Intn(game.Size.Height)
 		moves = append(moves, Move{random_stone, Point{random_x, random_y}})
