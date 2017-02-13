@@ -126,8 +126,8 @@ func (game *Game) generate_random_moves(num_moves int) []Move {
 	moves := []Move{}
 	for i := 0; i < num_moves; i++ {
 		random_stone := Stone(rand.Intn(2) + 1) // either black or white stone
-		random_x := rand.Intn(game.Size.Width)
-		random_y := rand.Intn(game.Size.Height)
+		random_x := rand.Intn(game.Width)
+		random_y := rand.Intn(game.Height)
 		moves = append(moves, Move{random_stone, Point{random_x, random_y}})
 	}
 	return moves
@@ -138,11 +138,11 @@ func (game *Game) generate_random_moves(num_moves int) []Move {
 func (game *Game) findNeighbors(point Point) []Point {
 	neighbors := []Point{}
 	// east
-	if point.X < game.Size.Width {
+	if point.X < game.Width-1 {
 		neighbors = append(neighbors, Point{point.X + 1, point.Y})
 	}
 	// north
-	if point.Y < game.Size.Height {
+	if point.Y < game.Height-1 {
 		neighbors = append(neighbors, Point{point.X, point.Y + 1})
 	}
 	// west
@@ -153,21 +153,102 @@ func (game *Game) findNeighbors(point Point) []Point {
 	if point.Y > 0 {
 		neighbors = append(neighbors, Point{point.X, point.Y - 1})
 	}
-	fmt.Println("Neighbors:", neighbors)
 	return neighbors
+}
+
+// a variation of the https://en.wikipedia.org/wiki/Flood_fill algorithm
+func (game *Game) find_group(group []Point, point Point, stone Stone, liberties []Point, board_visited []bool) ([]Point, []Point, []bool) {
+
+	if game.Board[point] == 0 {
+		// this point is empty, therefore it is a liberty
+
+		// figure out whether we already know about this liberty
+		for _, l := range liberties {
+			if l == point {
+				// this liberty is already known
+				// do not append it and return
+				return group, liberties, board_visited
+			}
+		}
+		// we append it in case it is not there already
+		// to avoid double counting of liberties
+		liberties = append(liberties, point)
+		return group, liberties, board_visited
+	}
+
+	if game.Board[point] != stone {
+		// this point has different color, return
+		return group, liberties, board_visited
+	} else {
+		// we have the same color
+		if board_visited[point.Y*game.Width+point.X] {
+			// we have been here before so let us return
+			return group, liberties, board_visited
+		} else {
+			// first time we are here
+			board_visited[point.Y*game.Width+point.X] = true
+		}
+		// add the point to the group
+		group = append(group, point)
+		// then traverse all neighbors before returning
+		for _, neighbor := range game.findNeighbors(point) {
+			group, liberties, board_visited = game.find_group(group, neighbor, stone, liberties, board_visited)
+		}
+		return group, liberties, board_visited
+	}
+}
+
+func (game *Game) findDeadGroups() {
+
+	board_visited := make([]bool, game.Width*game.Height)
+	board_num_liberties := make([]int, game.Width*game.Height)
+
+	group := []Point{}
+	for y := 0; y < game.Height; y++ {
+		for x := 0; x < game.Width; x++ {
+			if game.Board[Point{x, y}] != 0 {
+				if !board_visited[y*game.Width+x] {
+					liberties := []Point{}
+					group, liberties, board_visited = game.find_group(
+						[]Point{},
+						Point{x, y},
+						game.Board[Point{x, y}],
+						liberties,
+						board_visited)
+					for _, point := range group {
+						board_num_liberties[point.Y*game.Width+point.X] = len(liberties)
+					}
+				}
+			}
+		}
+	}
+	fmt.Println("\nliberties of groups:")
+	for y := game.Height - 1; y >= 0; y-- {
+		fmt.Print("   ")
+		for x := 0; x < game.Width; x++ {
+			num_liberties := board_num_liberties[y*game.Width+x]
+			if num_liberties == 0 {
+				fmt.Print("   ")
+			} else {
+				fmt.Printf("%3d", board_num_liberties[y*game.Width+x])
+			}
+		}
+		fmt.Print("\n")
+	}
 }
 
 func main() {
 	game := NewGame(Size{9, 11})
 
 	// moves := []Move{{PlaceBlack, Point{0, 0}}, {PlaceWhite, Point{1, 6}}}
-	moves := game.generate_random_moves(35)
+	moves := game.generate_random_moves(135)
 
 	fmt.Println()
 	fmt.Println("Moves:", moves)
 	fmt.Println()
 	game.AddMoves(moves)
 	game.PrintBoard()
+	game.findDeadGroups()
 
 	// fmt.Println(game.Board[Point{}])
 	// fmt.Println(game.Board[Point{1, 1}])
