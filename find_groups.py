@@ -66,10 +66,10 @@ class Board:
 
     def get_groups(self):
         groups = []
-        groups_by_point = {}
+        grouped_points = set()
 
         for point in self.iter_points():
-            if point in groups_by_point:
+            if point in grouped_points:
                 continue
 
             color = self.get_color(point)
@@ -84,30 +84,36 @@ class Board:
                 point = todo.pop()
                 color = self.points[point]
 
-                if point in groups_by_point:
+                if point in grouped_points:
                     continue
                 elif color == EMPTY:
                     group.liberties.add(point)
                 elif color == group.color:
                     group.points.add(point)
-                    groups_by_point[point] = group
+                    grouped_points.add(point)
                     todo.extend(self.get_neighbours(point))
 
-        return groups, groups_by_point
+        return groups
                 
-    def print(self, point_func=None):
-        if point_func is None:
-            def point_func(point):
-                return COLOR_CHARS[self.get_color(point)]
-
+    def print(self):
         print()
         for y in range(self.size.h):
             line = []
             for x in range(self.size.w):
-                line.append(point_func(Point(x, y)))
+                line.append(COLOR_CHARS[self.get_color(Point(x, y))])
 
             print('  ' + ' '.join(line))
         print()
+
+
+def print_dead_groups(groups, board_size):
+    board = Board(board_size)
+    for group in groups:
+        if group.is_dead:
+            for point in group.points:
+                board.points[point] = group.color
+
+    board.print()
                 
 
 board = Board(Size(19, 19))
@@ -115,18 +121,8 @@ board.random_fill(seed=None)
 print('Board:')
 board.print()
 
+groups = board.get_groups()
 
-def get_point_liberties(point):
-    try:
-        group = groups_by_point[point]
-        if group.is_alive:
-            return '.'
-        else:
-            return COLOR_CHARS[group.color]
-            
-    except KeyError:
-        return ' '
-
-groups, groups_by_point = board.get_groups()
 print('Dead groups:')
-board.print(get_point_liberties)
+
+print_dead_groups(groups, board.size)
