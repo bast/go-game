@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"math/rand"
+	// "time"
 )
 
 // Letters for quick lookup.
@@ -120,6 +121,8 @@ func NewGame(boardSize Size) Game {
 // this is used for debugging detection of invalid moves
 // and for implementing grouping and detection of dead groups
 func generate_random_moves(board_size int, num_moves int) []Move {
+	// rand.Seed(time.Now().UnixNano())
+
 	moves := []Move{}
 	for i := 0; i < num_moves; i++ {
 		random_stone := Stone(rand.Intn(2) + 1)
