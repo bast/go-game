@@ -8,8 +8,7 @@ EMPTY = 0
 BLACK = 1
 WHITE = 2
 
-LETTERS = 'ABCDEFGHJKLMNOPQRST'
-COLOR_CHARS = ' [='
+BOARD_LETTERS = 'ABCDEFGHJKLMNOPQRST'
 
 
 class Group:
@@ -97,13 +96,25 @@ class Board:
         return groups
                 
     def print(self):
+        color_chars = {
+            # Characters that are easy to tell apart at a glance.
+            EMPTY: '.',
+            BLACK: '*',
+            WHITE: '|',
+        }
+
         print()
+        print('    ', ' '.join(BOARD_LETTERS[:self.size.w]))
+        print()
+
         for y in range(self.size.h):
             line = []
-            for x in range(self.size.w):
-                line.append(COLOR_CHARS[self.get_color(Point(x, y))])
+            for x in reversed(range(self.size.w)):
+                line.append(color_chars[self.get_color(Point(x, y))])
 
-            print('  ' + ' '.join(line))
+            rownum = self.size.h - y
+
+            print(' {:2} '.format(rownum), ' '.join(line))
         print()
 
 
