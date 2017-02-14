@@ -36,19 +36,19 @@ class Group:
 class Board:
     def __init__(self, size):
         self.size = size
-        self.points = {}
+        self.stones = {}
 
     def random_fill(self, seed=None):
         rand = random.Random(seed)
 
         for point in self.iter_points():
-            self.points[point] = rand.choice([EMPTY, BLACK, WHITE])
+            self.stones[point] = rand.choice([EMPTY, BLACK, WHITE])
 
     def is_inside(self, point):
         return 0 <= point.x < self.size.w and 0 <= point.y < self.size.h
 
     def get_color(self, point):
-        return self.points.get(point, 0)
+        return self.stones.get(point, 0)
 
     def get_neighbours(self, point):
         x, y = point
@@ -67,7 +67,7 @@ class Board:
         groups = []
         grouped_points = set()
 
-        for point, color in self.points.items():
+        for point, color in self.stones.items():
             # This should not happen but let's test just in case.
             if color == EMPTY:
                 continue
@@ -80,7 +80,7 @@ class Board:
             todo = [point]
             while todo:
                 point = todo.pop()
-                color = self.points[point]
+                color = self.stones[point]
 
                 if point in grouped_points:
                     continue
@@ -123,7 +123,7 @@ def print_dead_groups(groups, board_size):
     for group in groups:
         if group.is_dead:
             for point in group.points:
-                board.points[point] = group.color
+                board.stones[point] = group.color
 
     board.print()
                 
