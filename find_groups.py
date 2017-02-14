@@ -69,11 +69,11 @@ class Board:
         grouped_points = set()
 
         for point, color in self.points.items():
-            if point in grouped_points:
-                continue
-
             # This should not happen but let's test just in case.
             if color == EMPTY:
+                continue
+
+            if point in grouped_points:
                 continue
 
             group = Group(color)
@@ -119,11 +119,11 @@ def print_dead_groups(groups, board_size):
 
 board = Board(Size(19, 19))
 board.random_fill(seed=None)
+
 print('Board:')
 board.print()
 
 groups = board.find_groups()
 
 print('Dead groups:')
-
 print_dead_groups(groups, board.size)
