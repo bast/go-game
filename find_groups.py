@@ -100,7 +100,7 @@ class Board:
             # Characters that are easy to tell apart at a glance.
             EMPTY: '.',
             BLACK: '*',
-            WHITE: 'o',
+            WHITE: '|',
         }
 
         print()
