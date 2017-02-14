@@ -113,7 +113,8 @@ def make_move(game, point, color, commit=True):
     groups = board.find_groups()
     for group in groups:
         if group.color == color:
-            return "that would be suicide", groups
+            if group.num_liberties == 0:
+                return "that would be suicide", groups
 
     # Ko rule (detect cycle)
     if board == board 2 moves ago:
