@@ -110,6 +110,7 @@ def make_move(game, point, color, commit=True):
                 board = board.capture(group)
 
     # Suicide rule
+    groups = board.find_groups()
     for group in groups:
         if group.color == color:
             return "that would be suicide", groups
