@@ -64,20 +64,19 @@ class Board:
             for y in range(self.size.h):
                 yield Point(x, y)
 
-    def get_groups(self):
+    def find_groups(self):
         groups = []
         grouped_points = set()
 
-        for point in self.iter_points():
+        for point, color in self.points.items():
             if point in grouped_points:
                 continue
 
-            color = self.get_color(point)
+            # This should not happen but let's test just in case.
             if color == EMPTY:
                 continue
 
             group = Group(color)
-            groups.append(group)
 
             todo = [point]
             while todo:
@@ -92,6 +91,8 @@ class Board:
                     group.points.add(point)
                     grouped_points.add(point)
                     todo.extend(self.get_neighbours(point))
+
+            groups.append(group)
 
         return groups
                 
@@ -121,7 +122,7 @@ board.random_fill(seed=None)
 print('Board:')
 board.print()
 
-groups = board.get_groups()
+groups = board.find_groups()
 
 print('Dead groups:')
 
