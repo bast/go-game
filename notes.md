@@ -83,6 +83,47 @@ Some notes:
 * Should we call this SGN (Simple Go Notation)?
 
 
+## Checking If a Move Is Valid
+
+Psudocode:
+
+```
+def make_move(game, point, color, commit=True):
+    board = game.board.copy()
+
+    if point is outside board:
+        return "point is outside board"
+
+    if board[point] is not empty:
+        return "point taken"
+
+    # Place stone.
+    board[point] = color
+    groups = game.find_groups()
+
+    # Suicide rule.
+    for group in groups:
+        if group.color == color:
+            return "that would be suicide", groups
+
+    # Ko rule (detect cycle)
+    if board == board 2 moves ago:
+        return "cycling not allowed", groups
+
+    # This allows us to pass commit=False to try out a move.
+    if commit:
+        game.board = board
+
+    return "ok", groups
+}
+```
+
+This should be pretty straight forward to write in Go but we need to
+figure out what to return.
+
+Error codes should be used instead of the punny messages.
+
+
 ## Data Structures
 
 A point on the board:
