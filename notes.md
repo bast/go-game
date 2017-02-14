@@ -85,7 +85,7 @@ Some notes:
 
 ## Checking If a Move Is Valid
 
-Psudocode:
+Pseudocode:
 
 ```
 def make_move(game, point, color, commit=True):
@@ -97,11 +97,19 @@ def make_move(game, point, color, commit=True):
     if board[point] is not empty:
         return "point taken"
 
-    # Place stone.
+    # Place stone
     board[point] = color
-    groups = game.find_groups()
 
-    # Suicide rule.
+    # First check whether opponent is captured
+    groups = board.find_groups()
+    for group in groups:
+        if group.color != color:
+            if group.num_liberties == 0:
+                # if yes, we need to update the board
+                # before we evaluate suicide rule
+                board = board.capture(group)
+
+    # Suicide rule
     for group in groups:
         if group.color == color:
             return "that would be suicide", groups
