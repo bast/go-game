@@ -100,21 +100,24 @@ def make_move(game, point, color, commit=True):
     # Place stone
     board[point] = color
 
-    # First check whether opponent is captured
+    # locate groups and evaluate their liberties
     groups = board.find_groups()
+
+    # First check whether opponent is captured
+    oponent_is_captured = False
     for group in groups:
         if group.color != color:
             if group.num_liberties == 0:
                 # if yes, we need to update the board
-                # before we evaluate suicide rule
+                oponent_is_captured = True
                 board = board.capture(group)
 
     # Suicide rule
-    groups = board.find_groups()
-    for group in groups:
-        if group.color == color:
-            if group.num_liberties == 0:
-                return "that would be suicide", groups
+    if not oponent_is_captured:
+        for group in groups:
+            if group.color == color:
+                if group.num_liberties == 0:
+                    return "that would be suicide", groups
 
     # Ko rule (detect cycle)
     if board == board 2 moves ago:
