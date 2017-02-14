@@ -112,7 +112,7 @@ def make_move(game, point, color, commit=True):
                 oponent_is_captured = True
                 board = board.capture(group)
 
-    # Suicide rule
+    # Suicide rule: if not captured any groups and player has groups without liberties, then invalid move
     if not oponent_is_captured:
         for group in groups:
             if group.color == color:
