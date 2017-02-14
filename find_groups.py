@@ -99,8 +99,8 @@ class Board:
         color_chars = {
             # Characters that are easy to tell apart at a glance.
             EMPTY: '.',
-            BLACK: '*',
-            WHITE: '|',
+            BLACK: '#',
+            WHITE: 'o',
         }
 
         print()
