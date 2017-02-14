@@ -384,8 +384,8 @@
      inkscape:window-height="1080"
      id="namedview129"
      showgrid="false"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="634.90534"
+     inkscape:zoom="1.2484854"
+     inkscape:cx="584.54432"
      inkscape:cy="748.98705"
      inkscape:window-x="0"
      inkscape:window-y="0"
@@ -1468,17 +1468,11 @@
        style="fill:#000000"
        id="circle4516-8" />
   </g>
-  <circle
-     id="circle4520-0"
-     style="opacity:1;fill:#ffffff;fill-opacity:0.45977011"
-     r="20"
-     cy="317.82968"
-     cx="725.87152" />
   <text
      id="text11-4-6"
      style="font-size:25px;font-family:Verdana;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none"
-     y="226.179"
-     x="528.89423"
+     y="226.97997"
+     x="907.7533"
      font-size="50">
     <tspan
        style="text-align:start;text-anchor:start"
@@ -1487,8 +1481,8 @@
   <text
      id="text11-4-6-8"
      style="font-size:25px;font-family:Verdana;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none"
-     y="87.089584"
-     x="765.23761"
+     y="85.48764"
+     x="819.70361"
      font-size="50">
     <tspan
        style="text-align:start;text-anchor:start"
@@ -1496,8 +1490,8 @@
   </text>
   <g
      id="g4512-9-3"
-     transform="matrix(0.5,0,0,0.5,624.40577,269.58918)"
-     style="opacity:0.469">
+     transform="matrix(0.5,0,0,0.5,625.20674,268.78821)"
+     style="opacity:0.29899998">
     <circle
        cx="210"
        cy="210"
@@ -1513,8 +1507,8 @@
   </g>
   <g
      id="g4512-9-6"
-     transform="matrix(0.5,0,0,0.5,624.40577,319.79375)"
-     style="opacity:0.469">
+     transform="matrix(0.5,0,0,0.5,624.40577,318.19181)"
+     style="opacity:0.29899998">
     <circle
        cx="210"
        cy="210"
@@ -1614,6 +1608,18 @@
      id="circle4520-0-3-0"
      style="opacity:1;fill:#ffffff;fill-opacity:1"
      r="20"
-     cy="282.6402"
-     cx="840.39648" />
+     cy="288.24698"
+     cx="831.58575" />
+  <circle
+     id="circle4514-4-73-5-3"
+     style="opacity:0.13999999;fill:#000000"
+     r="20"
+     cy="318.87161"
+     cx="726.26434" />
+  <circle
+     id="circle4520-0-3-1"
+     style="opacity:1;fill:#ffffff;fill-opacity:1"
+     r="20"
+     cy="313.07083"
+     cx="736.30774" />
 </svg>
