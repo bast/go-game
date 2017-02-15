@@ -42,7 +42,9 @@ class Board:
         rand = random.Random(seed)
 
         for point in self.iter_points():
-            self.stones[point] = rand.choice([EMPTY, BLACK, WHITE])
+            color = rand.choice([EMPTY, BLACK, WHITE])
+            if color != EMPTY:
+                self.stones[point] = color
 
     def is_inside(self, point):
         return 0 <= point.x < self.size.w and 0 <= point.y < self.size.h
@@ -80,7 +82,7 @@ class Board:
             todo = [point]
             while todo:
                 point = todo.pop()
-                color = self.stones[point]
+                color = self.stones.get(point, EMPTY)
 
                 if point in grouped_points:
                     continue
