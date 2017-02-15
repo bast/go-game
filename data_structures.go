@@ -97,14 +97,18 @@ func (game *Game) AddMoves(moves []Move) {
 func (game *Game) PrintBoard() {
 	colorChars := ".bw"
 
-	fmt.Println("   " + BoardLetters[:game.Width])
+	fmt.Print("   ")
+	for x := 0; x < game.Width; x++ {
+		fmt.Printf(" %c", BoardLetters[x])
+	}
+	fmt.Println()
 
 	for y := game.Height - 1; y >= 0; y-- {
 		line := ""
 		for x := 0; x < game.Width; x++ {
-			line += fmt.Sprintf("%c", colorChars[game.Board[Point{x, y}]])
+			line += fmt.Sprintf(" %c", colorChars[game.Board[Point{x, y}]])
 		}
-		fmt.Printf("%2d %s\n", y+1, line)
+		fmt.Printf(" %2d%s\n", y+1, line)
 	}
 }
 
