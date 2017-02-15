@@ -16,7 +16,7 @@ const ActionChars = "cbw"
 
 // Here it would be nice if the type system allows us to say
 // "integer with one of these value: 0, 1, 2.
-type Stone int
+type Color int
 
 const (
 	// Stone colors. Used for board state.
@@ -45,8 +45,8 @@ type Size struct {
 
 // A move. (Place or capture stone.)
 type Move struct {
-	Action Stone // (Hmm, this looks a bit weird here.)
 	Point
+	Color
 }
 
 func (move Move) String() string {
@@ -56,7 +56,7 @@ func (move Move) String() string {
 func ParseMove(text string) (Move, error) {
 	// letter := text[0]
 	// number := text[1:len(text)-1]
-	// action := text[len(text)-1]
+	// color := text[len(text)-1]
 
 	return Move{}, errors.New("Parser not written")
 }
@@ -65,7 +65,7 @@ func FormatMove(move Move) string {
 	// Todo: check if values are out of range?
 	letter := BoardLetters[move.X]
 	number := move.Y + 1
-	stoneColor := ActionChars[move.Action]
+	stoneColor := ActionChars[move.Color]
 
 	return fmt.Sprintf("%c%d%c", letter, number, stoneColor)
 }
@@ -74,7 +74,7 @@ func FormatMove(move Move) string {
 // the moves.
 type Game struct {
 	Size
-	Board map[Point]Stone
+	Board map[Point]Color
 	Moves []Move
 	// Here we should have a stack (or slice) of boards so that we have
 	// a history of previous board states.
@@ -85,7 +85,7 @@ type Game struct {
 
 func (game *Game) AddMove(move Move) {
 	game.Moves = append(game.Moves, move)
-	game.Board[move.Point] = move.Action
+	game.Board[move.Point] = move.Color
 }
 
 func (game *Game) AddMoves(moves []Move) {
@@ -95,14 +95,14 @@ func (game *Game) AddMoves(moves []Move) {
 }
 
 func (game *Game) PrintBoard() {
-	stoneChars := ".bw"
+	colorChars := ".bw"
 
 	fmt.Println("   " + BoardLetters[:game.Width])
 
 	for y := game.Height - 1; y >= 0; y-- {
 		line := ""
 		for x := 0; x < game.Width; x++ {
-			line += fmt.Sprintf("%c", stoneChars[game.Board[Point{x, y}]])
+			line += fmt.Sprintf("%c", colorChars[game.Board[Point{x, y}]])
 		}
 		fmt.Printf("%2d %s\n", y+1, line)
 	}
@@ -111,7 +111,7 @@ func (game *Game) PrintBoard() {
 func NewGame(boardSize Size) Game {
 	return Game{
 		Size:  boardSize,
-		Board: make(map[Point]Stone),
+		Board: make(map[Point]Color),
 	}
 }
 
@@ -125,10 +125,10 @@ func (game *Game) generate_random_moves(num_moves int) []Move {
 
 	moves := []Move{}
 	for i := 0; i < num_moves; i++ {
-		random_stone := Stone(rand.Intn(2) + 1) // either black or white stone
-		random_x := rand.Intn(game.Width)
-		random_y := rand.Intn(game.Height)
-		moves = append(moves, Move{random_stone, Point{random_x, random_y}})
+		randomColor := Color(rand.Intn(2) + 1) // either black or white stone
+		randomX := rand.Intn(game.Width)
+		randomY := rand.Intn(game.Height)
+		moves = append(moves, Move{Point{randomX, randomY}, randomColor})
 	}
 	return moves
 }
@@ -157,7 +157,7 @@ func (game *Game) findNeighbors(point Point) []Point {
 }
 
 // a variation of the https://en.wikipedia.org/wiki/Flood_fill algorithm
-func (game *Game) find_group(group []Point, point Point, stone Stone, liberties []Point, board_visited []bool) ([]Point, []Point, []bool) {
+func (game *Game) find_group(group []Point, point Point, color Color, liberties []Point, board_visited []bool) ([]Point, []Point, []bool) {
 
 	if game.Board[point] == 0 {
 		// this point is empty, therefore it is a liberty
@@ -175,7 +175,7 @@ func (game *Game) find_group(group []Point, point Point, stone Stone, liberties 
 		return group, liberties, board_visited
 	}
 
-	if game.Board[point] != stone {
+	if game.Board[point] != color {
 		// this point has different color, return
 		return group, liberties, board_visited
 	} else {
@@ -191,7 +191,7 @@ func (game *Game) find_group(group []Point, point Point, stone Stone, liberties 
 		group = append(group, point)
 		// then traverse all neighbors before returning
 		for _, neighbor := range game.findNeighbors(point) {
-			group, liberties, board_visited = game.find_group(group, neighbor, stone, liberties, board_visited)
+			group, liberties, board_visited = game.find_group(group, neighbor, color, liberties, board_visited)
 		}
 		return group, liberties, board_visited
 	}

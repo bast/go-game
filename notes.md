@@ -148,10 +148,10 @@ type Point struct {
 }
 ```
 
-A stone can just be an int:
+A stone color:
 
 ```go
-type Stone int
+type Color int
 ```
 
 There are three possible values:
@@ -172,7 +172,7 @@ it makes some kind of sense for it to have the lowest value.
 Using these building blocks the board can be represented as:
 
 ```go
-board := map[Point]Stone
+board := map[Point]Color
 ```
 
 Placing a stone:
@@ -201,9 +201,8 @@ the two. A move can be represented as:
 
 ```go
 type Move struct {
-  // Using "Stone" here is perhaps a bit confusing.
-  Action Stone
   Point
+  Color
 }
 ```
 
@@ -211,13 +210,13 @@ Since the values are the same for moves and stones performing a move is
 straight forward:
 
 ```go
-board[move.Point] = move.Action
+board[move.Point] = move.Color
 ```
 
 A sequence of moves can be a slice:
 
 ```go
-moves := []Move{{PlaceBlack, Point{0, 0}}, {PlaceWhite, Point{0, 1}}}
+moves := []Move{{Point{0, 0}, Black}, {Point{0, 1}, White}}
 ```
 
 This can all be contained in a `Game` struct:
@@ -226,7 +225,7 @@ This can all be contained in a `Game` struct:
 type Game struct {
   Size int
   Moves []Move
-  Board map[Point]Stone
+  Board map[Point]Color
 }
 ```
 
