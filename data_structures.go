@@ -229,6 +229,7 @@ func (game *Game) findDeadGroups() {
 	}
 	fmt.Println("\nliberties of groups:")
 	for y := game.Height - 1; y >= 0; y-- {
+		fmt.Print("   ")
 		for x := 0; x < game.Width; x++ {
 			num_liberties := board_num_liberties[y*game.Width+x]
 			if num_liberties == 0 {
