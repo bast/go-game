@@ -75,16 +75,14 @@ class Board:
             todo = [point]
             while todo:
                 point = todo.pop()
-                color = self.stones.get(point, EMPTY)
-
-                if point in grouped_points:
-                    continue
-                elif color == EMPTY:
-                    group.liberties.add(point)
-                elif color == group.color:
-                    group.points.add(point)
-                    grouped_points.add(point)
-                    todo.extend(self.get_neighbours(point))
+                if point not in grouped_points:
+                    color = self.stones.get(point, EMPTY)
+                    if color == EMPTY:
+                        group.liberties.add(point)
+                    elif color == group.color:
+                        group.points.add(point)
+                        grouped_points.add(point)
+                        todo.extend(self.get_neighbours(point))
 
             groups.append(group)
 
