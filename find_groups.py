@@ -131,7 +131,7 @@ def print_dead_groups(groups, board_size):
                 
 
 board = Board(Size(19, 19))
-board.random_fill(seed=None)
+board.random_fill(seed=1)
 
 print('Board:')
 board.print()
