@@ -18,10 +18,6 @@ class Group:
         self.liberties = set()
 
     @property
-    def is_alive(self):
-        return len(self.liberties) > 0
-
-    @property
     def is_dead(self):
         return len(self.liberties) == 0
 
