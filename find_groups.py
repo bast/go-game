@@ -17,9 +17,8 @@ class Group:
         self.points = set()
         self.liberties = set()
 
-    @property
-    def is_captured(self):
-        return len(self.liberties) == 0
+    def get_num_liberties(self):
+        return len(self.liberties)
 
     def __len__(self):
         return len(self.points)
@@ -120,7 +119,7 @@ def print_board(board):
 def print_captured_groups(groups, board_size):
     board = Board(board_size)
     for group in groups:
-        if group.is_captured:
+        if group.get_num_liberties() == 0:
             for point in group.points:
                 board.stones[point] = group.color
 
