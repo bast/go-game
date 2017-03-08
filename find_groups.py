@@ -18,7 +18,7 @@ class Group:
         self.liberties = set()
 
     @property
-    def is_dead(self):
+    def is_captured(self):
         return len(self.liberties) == 0
 
     def __len__(self):
@@ -117,10 +117,10 @@ def print_board(board):
     print()
 
 
-def print_dead_groups(groups, board_size):
+def print_captured_groups(groups, board_size):
     board = Board(board_size)
     for group in groups:
-        if group.is_dead:
+        if group.is_captured:
             for point in group.points:
                 board.stones[point] = group.color
 
@@ -135,5 +135,5 @@ print_board(board)
 
 groups = board.find_groups()
 
-print('Dead groups:')
-print_dead_groups(groups, board.size)
+print('Captured groups:')
+print_captured_groups(groups, board.size)
