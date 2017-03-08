@@ -16,7 +16,7 @@ class Group:
         self.color = color
         self.points = set()
         self.liberties = set()
-        
+
     @property
     def is_alive(self):
         return len(self.liberties) > 0
@@ -96,28 +96,29 @@ class Board:
             groups.append(group)
 
         return groups
-                
-    def print(self):
-        color_chars = {
-            # Characters that are easy to tell apart at a glance.
-            EMPTY: '.',
-            BLACK: '#',
-            WHITE: 'o',
-        }
 
-        print()
-        print('    ', ' '.join(BOARD_LETTERS[:self.size.w]))
-        print()
 
-        for y in range(self.size.h):
-            line = []
-            for x in reversed(range(self.size.w)):
-                line.append(color_chars[self.get_color(Point(x, y))])
+def print_board(board):
+    color_chars = {
+        # Characters that are easy to tell apart at a glance.
+        EMPTY: '.',
+        BLACK: '#',
+        WHITE: 'o',
+    }
 
-            rownum = self.size.h - y
+    print()
+    print('    ', ' '.join(BOARD_LETTERS[:board.size.w]))
+    print()
 
-            print(' {:2} '.format(rownum), ' '.join(line))
-        print()
+    for y in range(board.size.h):
+        line = []
+        for x in reversed(range(board.size.w)):
+            line.append(color_chars[board.get_color(Point(x, y))])
+
+        rownum = board.size.h - y
+
+        print(' {:2} '.format(rownum), ' '.join(line))
+    print()
 
 
 def print_dead_groups(groups, board_size):
@@ -127,14 +128,14 @@ def print_dead_groups(groups, board_size):
             for point in group.points:
                 board.stones[point] = group.color
 
-    board.print()
-                
+    print_board(board)
+
 
 board = Board(Size(9, 9))
 board.random_fill(seed=13)
 
 print('Board:')
-board.print()
+print_board(board)
 
 groups = board.find_groups()
 
