@@ -65,9 +65,7 @@ class Board:
         grouped_points = set()
 
         for point, color in self.stones.items():
-            # This should not happen but let's test just in case.
-            if color == EMPTY:
-                continue
+            assert color != EMPTY
 
             if point in grouped_points:
                 continue
