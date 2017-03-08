@@ -1,5 +1,5 @@
 import random
-from collections import namedtuple, defaultdict, deque
+from collections import namedtuple
 
 Point = namedtuple('Point', ['x', 'y'])
 Size = namedtuple('Size', ['w', 'h'])
