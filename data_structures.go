@@ -23,13 +23,6 @@ const (
 	Empty = 0 // No stone here.
 	Black = 1
 	White = 2
-
-	// Moves. These correspond to board state making it easy to
-	// translate between the two. (A capture will clear that point on
-	// the board.)
-	Capture    = 0
-	PlaceBlack = 1
-	PlaceWhite = 2
 )
 
 // Point where a stone can be placed.
@@ -251,7 +244,6 @@ func (game *Game) findDeadGroups() {
 func main() {
 	game := NewGame(Size{9, 11})
 
-	// moves := []Move{{PlaceBlack, Point{0, 0}}, {PlaceWhite, Point{1, 6}}}
 	moves := game.generate_random_moves(135)
 
 	fmt.Println()
