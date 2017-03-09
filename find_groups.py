@@ -50,10 +50,8 @@ class Board:
     def get_neighbours(self, point):
         x, y = point
 
-        _points = [Point(x-1, y), Point(x+1, y), Point(x, y-1), Point(x, y+1)]
-        points = filter(lambda p: self.is_inside(p), _points)
-
-        return points
+        points = [Point(x-1, y), Point(x+1, y), Point(x, y-1), Point(x, y+1)]
+        return filter(self.is_inside, points)
 
     def iter_points(self):
         for x in range(self.size.w):
