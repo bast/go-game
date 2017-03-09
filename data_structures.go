@@ -194,7 +194,7 @@ func (game *Game) find_group(group []Point, point Point, color Color, liberties 
 	}
 }
 
-func (game *Game) findDeadGroups() {
+func (game *Game) findCapturedGroups() {
 
 	board_visited := make([]bool, game.Width*game.Height)
 
@@ -251,7 +251,7 @@ func main() {
 	fmt.Println()
 	game.AddMoves(moves)
 	game.PrintBoard()
-	game.findDeadGroups()
+	game.findCapturedGroups()
 
 	// fmt.Println(game.Board[Point{}])
 	// fmt.Println(game.Board[Point{1, 1}])
