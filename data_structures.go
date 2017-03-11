@@ -123,11 +123,11 @@ func NewGame(boardSize Size) Game {
 // this function can place multiple stones on top of each other
 // this is used for debugging detection of invalid moves
 // and for implementing grouping and detection of dead groups
-func (game *Game) generate_random_moves(num_moves int) []Move {
+func (game *Game) generateRandomMoves(numMoves int) []Move {
 	// rand.Seed(time.Now().UnixNano())
 
 	moves := []Move{}
-	for i := 0; i < num_moves; i++ {
+	for i := 0; i < numMoves; i++ {
 		randomColor := Color(rand.Intn(2) + 1) // either black or white stone
 		randomX := rand.Intn(game.Width)
 		randomY := rand.Intn(game.Height)
@@ -162,11 +162,11 @@ func (game *Game) findNeighbors(point Point) []Point {
 func (game *Game) findCapturedGroups() {
 
 	groups := []Group{}
-	grouped_points := make(map[Point]bool)
+	groupedPoints := make(map[Point]bool)
 
 	for point, color := range game.Board {
 		if color != 0 {
-			if !grouped_points[point] {
+			if !groupedPoints[point] {
 				group := Group{
 					Color:     color,
 					Points:    make(map[Point]bool),
@@ -181,13 +181,13 @@ func (game *Game) findCapturedGroups() {
 					// see https://github.com/golang/go/wiki/SliceTricks
 					point, todo = todo[len(todo)-1], todo[:len(todo)-1]
 
-					if !grouped_points[point] {
+					if !groupedPoints[point] {
 						_color := game.Board[point]
 						if _color == 0 {
 							group.Liberties[point] = true
 						} else if _color == group.Color {
 							group.Points[point] = true
-							grouped_points[point] = true
+							groupedPoints[point] = true
 							// extend the todo array by neighbors
 							todo = append(todo, game.findNeighbors(point)...)
 						}
@@ -199,12 +199,12 @@ func (game *Game) findCapturedGroups() {
 	}
 
 	// for debugging
-	board_num_liberties := make([]int, game.Width*game.Height)
+	boardNumLiberties := make([]int, game.Width*game.Height)
 
 	for _, group := range groups {
-		num_liberties := len(group.Liberties)
+		numLiberties := len(group.Liberties)
 		for point, _ := range group.Points {
-			board_num_liberties[point.Y*game.Width+point.X] = num_liberties
+			boardNumLiberties[point.Y*game.Width+point.X] = numLiberties
 		}
 	}
 
@@ -213,15 +213,15 @@ func (game *Game) findCapturedGroups() {
 	for y := game.Height - 1; y >= 0; y-- {
 		fmt.Print("   ")
 		for x := 0; x < game.Width; x++ {
-			num_liberties := board_num_liberties[y*game.Width+x]
-			if num_liberties == 0 {
+			numLiberties := boardNumLiberties[y*game.Width+x]
+			if numLiberties == 0 {
 				if game.Board[Point{x, y}] == Empty {
 					fmt.Print(" .")
 				} else {
 					fmt.Print(" *")
 				}
 			} else {
-				fmt.Printf("%2d", board_num_liberties[y*game.Width+x])
+				fmt.Printf("%2d", boardNumLiberties[y*game.Width+x])
 			}
 		}
 		fmt.Print("\n")
@@ -231,7 +231,7 @@ func (game *Game) findCapturedGroups() {
 func main() {
 	game := NewGame(Size{9, 11})
 
-	moves := game.generate_random_moves(135)
+	moves := game.generateRandomMoves(135)
 
 	fmt.Println()
 	fmt.Println("Moves:", moves)
