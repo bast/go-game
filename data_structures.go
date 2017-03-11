@@ -164,46 +164,41 @@ func (game *Game) findCapturedGroups() {
 	groups := []Group{}
 	grouped_points := make(map[Point]bool)
 
-	for y := 0; y < game.Height; y++ {
-		for x := 0; x < game.Width; x++ {
-			point := Point{x, y}
-			color := game.Board[Point{x, y}]
-			if color != 0 {
-				if !grouped_points[point] {
-					group := Group{
-						Color:     color,
-						points:    make(map[Point]bool),
-						liberties: make(map[Point]bool),
-					}
-
-					todo := []Point{}
-					todo = append(todo, point)
-
-					for {
-						if len(todo) == 0 {
-							// queue is empty, let us stop
-							break
-						}
-
-						// pop the last element
-						// see https://github.com/golang/go/wiki/SliceTricks
-						point, todo = todo[len(todo)-1], todo[:len(todo)-1]
-
-						if !grouped_points[point] {
-							_color := game.Board[point]
-							if _color == 0 {
-								group.liberties[point] = true
-							} else if _color == group.Color {
-								group.points[point] = true
-								grouped_points[point] = true
-								// extend the todo array by neighbors
-								todo = append(todo, game.findNeighbors(point)...)
-							}
-						}
-					}
-					groups = append(groups, group)
-
+	for point, color := range game.Board {
+		if color != 0 {
+			if !grouped_points[point] {
+				group := Group{
+					Color:     color,
+					points:    make(map[Point]bool),
+					liberties: make(map[Point]bool),
 				}
+
+				todo := []Point{}
+				todo = append(todo, point)
+
+				for {
+					if len(todo) == 0 {
+						// queue is empty, let us stop
+						break
+					}
+
+					// pop the last element
+					// see https://github.com/golang/go/wiki/SliceTricks
+					point, todo = todo[len(todo)-1], todo[:len(todo)-1]
+
+					if !grouped_points[point] {
+						_color := game.Board[point]
+						if _color == 0 {
+							group.liberties[point] = true
+						} else if _color == group.Color {
+							group.points[point] = true
+							grouped_points[point] = true
+							// extend the todo array by neighbors
+							todo = append(todo, game.findNeighbors(point)...)
+						}
+					}
+				}
+				groups = append(groups, group)
 			}
 		}
 	}
