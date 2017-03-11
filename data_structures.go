@@ -69,6 +69,14 @@ type Group struct {
 	Liberties map[Point]bool
 }
 
+func NewGroup(color Color) Group {
+	return Group{
+		Color:     color,
+		Points:    make(map[Point]bool),
+		Liberties: make(map[Point]bool),
+	}
+}
+
 // The board is just a cache of moves. We can recompute the board from
 // the moves.
 type Game struct {
@@ -167,11 +175,7 @@ func (game *Game) findCapturedGroups() {
 	for point, color := range game.Board {
 		if color != 0 {
 			if !groupedPoints[point] {
-				group := Group{
-					Color:     color,
-					Points:    make(map[Point]bool),
-					Liberties: make(map[Point]bool),
-				}
+				group := NewGroup(color)
 
 				todo := []Point{point}
 
