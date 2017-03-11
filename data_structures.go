@@ -176,12 +176,7 @@ func (game *Game) findCapturedGroups() {
 				todo := []Point{}
 				todo = append(todo, point)
 
-				for {
-					if len(todo) == 0 {
-						// queue is empty, let us stop
-						break
-					}
-
+				for len(todo) > 0 {
 					// pop the last element
 					// see https://github.com/golang/go/wiki/SliceTricks
 					point, todo = todo[len(todo)-1], todo[:len(todo)-1]
