@@ -173,8 +173,7 @@ func (game *Game) findCapturedGroups() {
 					Liberties: make(map[Point]bool),
 				}
 
-				todo := []Point{}
-				todo = append(todo, point)
+				todo := []Point{point}
 
 				for len(todo) > 0 {
 					// pop the last element
