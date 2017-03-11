@@ -65,8 +65,8 @@ func FormatMove(move Move) string {
 
 type Group struct {
 	Color
-	points    map[Point]bool
-	liberties map[Point]bool
+	Points    map[Point]bool
+	Liberties map[Point]bool
 }
 
 // The board is just a cache of moves. We can recompute the board from
@@ -169,8 +169,8 @@ func (game *Game) findCapturedGroups() {
 			if !grouped_points[point] {
 				group := Group{
 					Color:     color,
-					points:    make(map[Point]bool),
-					liberties: make(map[Point]bool),
+					Points:    make(map[Point]bool),
+					Liberties: make(map[Point]bool),
 				}
 
 				todo := []Point{}
@@ -184,9 +184,9 @@ func (game *Game) findCapturedGroups() {
 					if !grouped_points[point] {
 						_color := game.Board[point]
 						if _color == 0 {
-							group.liberties[point] = true
+							group.Liberties[point] = true
 						} else if _color == group.Color {
-							group.points[point] = true
+							group.Points[point] = true
 							grouped_points[point] = true
 							// extend the todo array by neighbors
 							todo = append(todo, game.findNeighbors(point)...)
@@ -202,8 +202,8 @@ func (game *Game) findCapturedGroups() {
 	board_num_liberties := make([]int, game.Width*game.Height)
 
 	for _, group := range groups {
-		num_liberties := len(group.liberties)
-		for point, _ := range group.points {
+		num_liberties := len(group.Liberties)
+		for point, _ := range group.Points {
 			board_num_liberties[point.Y*game.Width+point.X] = num_liberties
 		}
 	}
