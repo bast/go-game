@@ -167,7 +167,7 @@ func (game *Game) findNeighbors(point Point) []Point {
 	return neighbors
 }
 
-func (game *Game) findCapturedGroups() {
+func (game *Game) FindGroups() []Group {
 
 	groups := []Group{}
 	groupedPoints := make(map[Point]bool)
@@ -201,7 +201,11 @@ func (game *Game) findCapturedGroups() {
 		}
 	}
 
-	// for debugging
+	return groups
+}
+
+func (game *Game) PrintLiberties(groups []Group) {
+
 	boardNumLiberties := make([]int, game.Width*game.Height)
 
 	for _, group := range groups {
@@ -241,7 +245,8 @@ func main() {
 	fmt.Println()
 	game.AddMoves(moves)
 	game.PrintBoard()
-	game.findCapturedGroups()
+	groups := game.FindGroups()
+	game.PrintLiberties(groups)
 
 	// fmt.Println(game.Board[Point{}])
 	// fmt.Println(game.Board[Point{1, 1}])
