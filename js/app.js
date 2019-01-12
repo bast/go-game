@@ -50,6 +50,9 @@ var app = new Vue({
         click: function(x, y) {
             this.colors[[x, y]] = "fill: red;";
             this.last_click = '(' + x + ', ' + y + ')';
+        },
+        reset: function() {
+            this.colors = _reset_colors(_num_rows, _num_columns, 'blue');
         }
     }
 })

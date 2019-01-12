@@ -31,11 +31,25 @@
         <div class="row">
           <div class="col">
             <h3>Try hovering and clicking</h3>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
             <p>
               last mouse-over: {{ last_mouse_over }} <br>
               last mouse-out: {{ last_mouse_out }} <br>
               last click: {{ last_click }}
             </p>
+          </div>
+
+          <div class="col">
+            <button v-on:click="reset" type="button" class="btn-xs btn-success">reset</button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
             <table>
               <tbody>
                 <tr v-for="row in (0, num_rows)">
