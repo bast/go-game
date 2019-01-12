@@ -1,0 +1,14 @@
+body {
+  font-family: 'Open Sans';
+  font-size: 16px;
+}
+
+svg {
+  display: block;
+  max-height: 100%;
+}
+
+td {
+  height: 20px;
+  width: 20px;
+}

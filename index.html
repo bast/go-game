@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- https://vuejs.org/v2/api/#v-cloak -->
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+    </style>
+
+    <title>experiments</title>
+  </head>
+  <body>
+    <div id="app" v-cloak>
+      <div class="container">
+
+        <div class="row">
+          <div class="col">
+            <h3>Try hovering and clicking</h3>
+            <p>
+              last mouse-over: {{ last_mouse_over }} <br>
+              last mouse-out: {{ last_mouse_out }} <br>
+              last click: {{ last_click }}
+            </p>
+            <table>
+              <tbody>
+                <tr v-for="row in (0, num_rows)">
+                  <td v-for="col in (0, num_columns)">
+                    <div @mouseover="mouse_over(col, row)"
+                         @mouseout="mouse_out(col, row)"
+                         @click="click(col, row)">
+                      <svg width="19" height="19">
+                        <rect x="0" y="0" width="19" height="19" v-bind:style="colors[[col, row]]"/>
+                      </svg>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>
