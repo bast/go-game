@@ -1,12 +1,17 @@
 'use strict';
 
 
-const _num_rows = 20;
-const _num_columns = 20;
+const _num_rows = 8;
+const _num_columns = 8;
 
 const EMPTY = 0;
 const BLACK = 1;
 const WHITE = 2;
+
+
+function _get_random_int(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 
 function _reset(num_rows, num_columns, value) {
@@ -78,6 +83,15 @@ var app = new Vue({
         reset: function() {
             this.colors = _reset(_num_rows, _num_columns, '#d6b489');
             this.board = _reset(_num_rows, _num_columns, EMPTY);
+        },
+        random: function() {
+            for (var row = 1; row <= _num_rows; row++) {
+                for (var col = 1; col <= _num_columns; col++) {
+                    var i = _get_random_int(0, 2);
+                    this.board[[row, col]] = i;
+                    this.colors[[row, col]] = this.color(i);
+                }
+            }
         },
         color: function(n) {
             switch(n) {
