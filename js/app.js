@@ -4,15 +4,19 @@
 const _num_rows = 20;
 const _num_columns = 20;
 
+const EMPTY = 0;
+const BLACK = 1;
+const WHITE = 2;
 
-function _reset_colors(num_rows, num_columns, color) {
-    var colors = {};
+
+function _reset(num_rows, num_columns, value) {
+    var array = {};
     for (var row = 1; row <= num_rows; row++) {
         for (var col = 1; col <= num_columns; col++) {
-            colors[[row, col]] = "fill: " + color + ";";
+            array[[row, col]] = value;
         }
     }
-    return colors;
+    return array;
 }
 
 
@@ -22,13 +26,15 @@ var app = new Vue({
         last_mouse_over: "none",
         last_mouse_out: "none",
         last_click: "none",
-        colors: _reset_colors(_num_rows, _num_columns, 'blue')
+        color_current_move: BLACK,
+        colors: _reset(_num_rows, _num_columns, '#d6b489'),
+        board: _reset(_num_rows, _num_columns, EMPTY),
     },
     computed: {
         // this is a bit of a hack, will clean this up later
         // I did this because I did not know how to have these
         // below data and at the same time use them as arguments
-        // in _reset_colors
+        // in _reset
         num_rows: function() {
             return _num_rows;
         },
@@ -38,21 +44,50 @@ var app = new Vue({
     },
     methods: {
         mouse_over: function(x, y) {
-            this.colors[[x, y]] = "fill: orange;";
+            if (this.board[[x, y]] == EMPTY) {
+                switch(this.color_current_move) {
+                  case BLACK:
+                    this.colors[[x, y]] = '#808080';
+                    break;
+                  case WHITE:
+                    this.colors[[x, y]] = '#e0e0e0';
+                    break;
+                }
+            }
             this.last_mouse_over = '(' + x + ', ' + y + ')';
         },
         mouse_out: function(x, y) {
-            if (this.colors[[x, y]] == "fill: orange;") {
-                this.colors[[x, y]] = "fill: blue;";
-            }
+            this.colors[[x, y]] = this.color(this.board[[x, y]]);
             this.last_mouse_out = '(' + x + ', ' + y + ')';
         },
         click: function(x, y) {
-            this.colors[[x, y]] = "fill: red;";
+            if (this.board[[x, y]] == EMPTY) {
+                this.board[[x, y]] = this.color_current_move;
+                this.colors[[x, y]] = this.color(this.color_current_move);
+                switch(this.color_current_move) {
+                  case BLACK:
+                    this.color_current_move = WHITE;
+                    break;
+                  case WHITE:
+                    this.color_current_move = BLACK;
+                    break;
+                }
+            }
             this.last_click = '(' + x + ', ' + y + ')';
         },
         reset: function() {
-            this.colors = _reset_colors(_num_rows, _num_columns, 'blue');
+            this.colors = _reset(_num_rows, _num_columns, '#d6b489');
+            this.board = _reset(_num_rows, _num_columns, EMPTY);
+        },
+        color: function(n) {
+            switch(n) {
+              case BLACK:
+                return 'black';
+              case WHITE:
+                return 'white';
+              default:
+                return '#d6b489';
+            }
         }
     }
 })
