@@ -98,18 +98,24 @@ var app = new Vue({
             this.colors[[x, y]] = this.color(this.board[[x, y]]);
             this.last_mouse_out = '(' + x + ', ' + y + ')';
         },
+        _switch_player: function() {
+            switch (this.color_current_move) {
+                case BLACK:
+                    this.color_current_move = WHITE;
+                    break;
+                case WHITE:
+                    this.color_current_move = BLACK;
+                    break;
+            }
+        },
+        pass: function() {
+            this._switch_player();
+        },
         click: function(x, y) {
             if (this.board[[x, y]] == EMPTY) {
                 this.board[[x, y]] = this.color_current_move;
                 this.colors[[x, y]] = this.color(this.color_current_move);
-                switch (this.color_current_move) {
-                    case BLACK:
-                        this.color_current_move = WHITE;
-                        break;
-                    case WHITE:
-                        this.color_current_move = BLACK;
-                        break;
-                }
+                this._switch_player();
             }
             this.last_click = '(' + x + ', ' + y + ')';
         },
