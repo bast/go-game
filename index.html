@@ -48,10 +48,12 @@
           <div class="col">
             <button v-on:click="reset" type="button" class="btn-xs btn-success">reset</button>
             <button v-on:click="random" type="button" class="btn-xs btn-success">random</button>
+            <button v-on:click="compute_groups" type="button" class="btn-xs btn-success">compute groups</button>
           </div>
         </div>
 
         <div class="row">
+
           <div class="col">
             <table>
               <tbody>
@@ -70,6 +72,19 @@
               </tbody>
             </table>
           </div>
+
+          <div class="col">
+            <table>
+              <tbody>
+                <tr v-for="row in (0, num_rows)">
+                  <td v-for="col in (0, num_columns)">
+                    {{ groups[[col, row]] }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
         </div>
 
       </div>
