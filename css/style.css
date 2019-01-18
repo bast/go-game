@@ -18,3 +18,8 @@ td {
   padding-top: 0px;
  */
 }
+
+/* https://vuejs.org/v2/api/#v-cloak */
+[v-cloak] {
+  display: none;
+}
