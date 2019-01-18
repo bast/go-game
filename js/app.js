@@ -1,8 +1,8 @@
 'use strict';
 
 
-const _num_rows = 8;
-const _num_columns = 8;
+const _num_rows = 7;
+const _num_columns = _num_rows;
 
 const EMPTY = 0;
 const BLACK = 1;
