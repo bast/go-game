@@ -68,9 +68,6 @@ function _reset(num_rows, num_columns, value) {
 var app = new Vue({
     el: '#app',
     data: {
-        last_mouse_over: "none",
-        last_mouse_out: "none",
-        last_click: "none",
         color_current_move: BLACK,
         // there is both colors and board which is possibly redundant
         // the motivation to have both is that "board" keeps the state of the board
@@ -106,11 +103,9 @@ var app = new Vue({
                         break;
                 }
             }
-            this.last_mouse_over = '(' + x + ', ' + y + ')';
         },
         mouse_out: function(x, y) {
             this.colors[[x, y]] = this.color(this.board[[x, y]]);
-            this.last_mouse_out = '(' + x + ', ' + y + ')';
         },
         _switch_player: function() {
             switch (this.color_current_move) {
@@ -132,7 +127,6 @@ var app = new Vue({
                 this._compute_groups();
                 this._switch_player();
             }
-            this.last_click = '(' + x + ', ' + y + ')';
         },
         reset: function() {
             this.colors = _reset(_num_rows, _num_columns, '#d6b489');
