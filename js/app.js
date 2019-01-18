@@ -13,10 +13,12 @@ function _get_neighbors(position) {
     var x = position[0];
     var y = position[1];
 
-    return [[x - 1, y],
-            [x + 1, y],
-            [x, y - 1],
-            [x, y + 1]];
+    return [
+        [x - 1, y],
+        [x + 1, y],
+        [x, y - 1],
+        [x, y + 1]
+    ];
 }
 
 
@@ -76,13 +78,13 @@ var app = new Vue({
     methods: {
         mouse_over: function(x, y) {
             if (this.board[[x, y]] == EMPTY) {
-                switch(this.color_current_move) {
-                  case BLACK:
-                    this.colors[[x, y]] = '#808080';
-                    break;
-                  case WHITE:
-                    this.colors[[x, y]] = '#e0e0e0';
-                    break;
+                switch (this.color_current_move) {
+                    case BLACK:
+                        this.colors[[x, y]] = '#808080';
+                        break;
+                    case WHITE:
+                        this.colors[[x, y]] = '#e0e0e0';
+                        break;
                 }
             }
             this.last_mouse_over = '(' + x + ', ' + y + ')';
@@ -95,13 +97,13 @@ var app = new Vue({
             if (this.board[[x, y]] == EMPTY) {
                 this.board[[x, y]] = this.color_current_move;
                 this.colors[[x, y]] = this.color(this.color_current_move);
-                switch(this.color_current_move) {
-                  case BLACK:
-                    this.color_current_move = WHITE;
-                    break;
-                  case WHITE:
-                    this.color_current_move = BLACK;
-                    break;
+                switch (this.color_current_move) {
+                    case BLACK:
+                        this.color_current_move = WHITE;
+                        break;
+                    case WHITE:
+                        this.color_current_move = BLACK;
+                        break;
                 }
             }
             this.last_click = '(' + x + ', ' + y + ')';
@@ -121,13 +123,19 @@ var app = new Vue({
         },
         _visit_neighbor: function(neighbor, current_color, current_group) {
             // skip if neighbor is outside
-            if (_position_outside_board(neighbor)) { return; }
+            if (_position_outside_board(neighbor)) {
+                return;
+            }
 
             // skip if we have already visited this stone
-            if (this.groups[neighbor] > 0) { return; }
+            if (this.groups[neighbor] > 0) {
+                return;
+            }
 
             // neighbor has different color, so skip
-            if (this.board[neighbor] != current_color) { return; }
+            if (this.board[neighbor] != current_color) {
+                return;
+            }
 
             // if neighbor empty, add to the liberties of this group
             if (this.board[neighbor] == EMPTY) {
@@ -155,10 +163,14 @@ var app = new Vue({
                     var position = [col, row];
 
                     // skip if empty
-                    if (this.board[position] == EMPTY) { continue; }
+                    if (this.board[position] == EMPTY) {
+                        continue;
+                    }
 
                     // skip if we have already visited this stone
-                    if (this.groups[position] > 0) { continue; }
+                    if (this.groups[position] > 0) {
+                        continue;
+                    }
 
                     var current_color = this.board[position];
 
@@ -172,13 +184,13 @@ var app = new Vue({
             }
         },
         color: function(n) {
-            switch(n) {
-              case BLACK:
-                return 'black';
-              case WHITE:
-                return 'white';
-              default:
-                return '#d6b489';
+            switch (n) {
+                case BLACK:
+                    return 'black';
+                case WHITE:
+                    return 'white';
+                default:
+                    return '#d6b489';
             }
         }
     }
