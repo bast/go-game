@@ -115,6 +115,7 @@ var app = new Vue({
             if (this.board[[x, y]] == EMPTY) {
                 this.board[[x, y]] = this.color_current_move;
                 this.colors[[x, y]] = this.color(this.color_current_move);
+                this._compute_groups();
                 this._switch_player();
             }
             this.last_click = '(' + x + ', ' + y + ')';
@@ -122,6 +123,7 @@ var app = new Vue({
         reset: function() {
             this.colors = _reset(_num_rows, _num_columns, '#d6b489');
             this.board = _reset(_num_rows, _num_columns, EMPTY);
+            this.groups = _reset(_num_rows, _num_columns, 0);
         },
         random: function() {
             for (var row = 1; row <= _num_rows; row++) {
@@ -131,6 +133,7 @@ var app = new Vue({
                     this.colors[[row, col]] = this.color(i);
                 }
             }
+            this._compute_groups();
         },
         _visit_neighbor: function(neighbor, current_color, current_group) {
             // skip if neighbor is outside
@@ -165,7 +168,7 @@ var app = new Vue({
                 this._visit_neighbor(_neighbor, current_color, current_group);
             }
         },
-        compute_groups: function() {
+        _compute_groups: function() {
             this.groups = _reset(_num_rows, _num_columns, 0);
 
             var current_group = 1;
