@@ -9,6 +9,20 @@ const BLACK = 1;
 const WHITE = 2;
 
 
+// https://stackoverflow.com/a/20339709
+function _unique(array_with_duplicates) {
+    var array_uniques = [];
+    var items_found = {};
+    for(var i = 0, l = array_with_duplicates.length; i < l; i++) {
+        var stringified = JSON.stringify(array_with_duplicates[i]);
+        if(items_found[stringified]) { continue; }
+        array_uniques.push(array_with_duplicates[i]);
+        items_found[stringified] = true;
+    }
+    return array_uniques;
+}
+
+
 function _get_neighbors(position) {
     var x = position[0];
     var y = position[1];
@@ -66,7 +80,7 @@ var app = new Vue({
         colors: _reset(_num_rows, _num_columns, '#d6b489'),
         board: _reset(_num_rows, _num_columns, EMPTY),
         groups: _reset(_num_rows, _num_columns, 0),
-        liberties: [],
+        liberties: {},
     },
     computed: {
         // this is a bit of a hack, will clean this up later
@@ -124,6 +138,7 @@ var app = new Vue({
             this.colors = _reset(_num_rows, _num_columns, '#d6b489');
             this.board = _reset(_num_rows, _num_columns, EMPTY);
             this.groups = _reset(_num_rows, _num_columns, 0);
+            this.liberties = {};
         },
         random: function() {
             for (var row = 1; row <= _num_rows; row++) {
@@ -146,11 +161,6 @@ var app = new Vue({
                 return;
             }
 
-            // neighbor has different color, so skip
-            if (this.board[neighbor] != current_color) {
-                return;
-            }
-
             // if neighbor empty, add to the liberties of this group
             if (this.board[neighbor] == EMPTY) {
                 if (current_group in this.liberties) {
@@ -158,6 +168,13 @@ var app = new Vue({
                 } else {
                     this.liberties[current_group] = [neighbor];
                 }
+                // remove duplicates
+                this.liberties[current_group] = _unique(this.liberties[current_group]);
+                return;
+            }
+
+            // neighbor has different color, so skip
+            if (this.board[neighbor] != current_color) {
                 return;
             }
 
@@ -170,6 +187,7 @@ var app = new Vue({
         },
         _compute_groups: function() {
             this.groups = _reset(_num_rows, _num_columns, 0);
+            this.liberties = {};
 
             var current_group = 1;
             for (var row = 1; row <= _num_rows; row++) {
