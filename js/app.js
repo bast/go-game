@@ -58,6 +58,11 @@ var app = new Vue({
         last_mouse_out: "none",
         last_click: "none",
         color_current_move: BLACK,
+        // there is both colors and board which is possibly redundant
+        // the motivation to have both is that "board" keeps the state of the board
+        // while "colors" can change based on mouse-over or mouse-out
+        // in other words: "colors" is what we see, but "board" is really the board
+        // state
         colors: _reset(_num_rows, _num_columns, '#d6b489'),
         board: _reset(_num_rows, _num_columns, EMPTY),
         groups: _reset(_num_rows, _num_columns, 0),
