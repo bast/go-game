@@ -21,13 +21,20 @@
 
     <script type="text/x-template" id="stone-template">
       <g :fill-opacity="opacity">
+        <circle cx="18" cy="18" r="12" fill="black" :fill-opacity="0.2*opacity"/>
         <circle cx="15" cy="15" r="12" :fill="fill" />
       </g>
     </script>
 
     <script type="text/x-template" id="background-template">
       <g>
-        <rect x="0" y="0" width="30" height="30" fill="#d6b489" />
+        <rect x="0" y="0" width="30" height="30" fill="#e8b060" />
+        <rect v-for="rectangle in rectangles(col, row, 30.0)"
+              :x="rectangle.x"
+              :y="rectangle.y"
+              :width="rectangle.width"
+              :height="rectangle.height"
+              fill="#533939" />
       </g>
     </script>
 
@@ -36,16 +43,8 @@
 
         <div class="row">
           <div class="col">
-            <p>
-              current move:
-              <svg width="30" height="30">
-                <rect x="0" y="0" width="30" height="30" fill="#d6b489" />
-                <circle cx="15" cy="15" r="12" v-bind:fill="color(color_current_move)" />
-              </svg>
-            </p>
-          </div>
-
-          <div class="col">
+            <br>
+            <br>
             <button v-on:click="pass" type="button" class="btn-xs btn-success">pass</button>
             <button v-on:click="reset" type="button" class="btn-xs btn-success">reset</button>
             <button v-on:click="random" type="button" class="btn-xs btn-success">random</button>
@@ -64,7 +63,7 @@
                          @mouseout="mouse_out(col, row)"
                          @click="click(col, row)">
                       <svg width="30" height="30">
-                        <background></background>
+                        <background :col="col" :row="row"></background>
                         <stone v-if="board[[col, row]] == 0"
                                :opacity="shadow_opacity[[col, row]]"
                                :fill="color(color_current_move)"></stone>
@@ -80,7 +79,7 @@
 
           <div class="col">
             <h4>groups</h4>
-            <table>
+            <table style="border: 0px;">
               <tbody>
                 <tr v-for="row in (0, num_rows)">
                   <td v-for="col in (0, num_columns)">

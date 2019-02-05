@@ -68,13 +68,159 @@ function _reset(num_rows, num_columns, value) {
 
 
 Vue.component('stone', {
-    props: ['opacity', 'fill'],
     template: '#stone-template',
+    props: ['opacity', 'fill'],
 })
 
 
 Vue.component('background', {
     template: '#background-template',
+    props: ['col', 'row'],
+    methods: {
+        rectangles: function(col, row, dim) {
+            var r = [];
+            var v = 1.0;
+            var w = 2.0 * v;
+            var l = 0.5 * dim;
+            switch (row) {
+                case 1:
+                    switch (col) {
+                        case 1:
+                            r.push({
+                                x: l,
+                                y: l,
+                                width: l,
+                                height: w
+                            });
+                            r.push({
+                                x: l,
+                                y: l,
+                                width: w,
+                                height: l
+                            });
+                            break;
+                        case _num_rows:
+                            r.push({
+                                x: 0,
+                                y: l,
+                                width: l,
+                                height: w
+                            });
+                            r.push({
+                                x: l,
+                                y: l,
+                                width: w,
+                                height: l
+                            });
+                            break;
+                        default:
+                            r.push({
+                                x: 0,
+                                y: l,
+                                width: 2.0 * l,
+                                height: w
+                            });
+                            r.push({
+                                x: l,
+                                y: l,
+                                width: v,
+                                height: l
+                            });
+                    }
+                    break;
+                case _num_rows:
+                    switch (col) {
+                        case 1:
+                            r.push({
+                                x: l,
+                                y: l,
+                                width: l,
+                                height: w
+                            });
+                            r.push({
+                                x: l,
+                                y: 0,
+                                width: w,
+                                height: l
+                            });
+                            break;
+                        case _num_rows:
+                            r.push({
+                                x: 0,
+                                y: l,
+                                width: l,
+                                height: w
+                            });
+                            r.push({
+                                x: l,
+                                y: 0,
+                                width: w,
+                                height: l
+                            });
+                            break;
+                        default:
+                            r.push({
+                                x: 0,
+                                y: l,
+                                width: 2.0 * l,
+                                height: w
+                            });
+                            r.push({
+                                x: l,
+                                y: 0,
+                                width: v,
+                                height: l
+                            });
+                    }
+                    break;
+                default:
+                    switch (col) {
+                        case 1:
+                            r.push({
+                                x: l,
+                                y: 0,
+                                width: w,
+                                height: 2.0 * l
+                            });
+                            r.push({
+                                x: l,
+                                y: l,
+                                width: l,
+                                height: v
+                            });
+                            break;
+                        case _num_rows:
+                            r.push({
+                                x: l,
+                                y: 0,
+                                width: w,
+                                height: 2.0 * l
+                            });
+                            r.push({
+                                x: 0,
+                                y: l,
+                                width: l,
+                                height: v
+                            });
+                            break;
+                        default:
+                            r.push({
+                                x: 0,
+                                y: l,
+                                width: 2.0 * l,
+                                height: v
+                            });
+                            r.push({
+                                x: l,
+                                y: 0,
+                                width: v,
+                                height: 2.0 * l
+                            });
+                    }
+            }
+            return r;
+        },
+    }
 })
 
 
