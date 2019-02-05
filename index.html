@@ -65,8 +65,11 @@
                          @click="click(col, row)">
                       <svg width="30" height="30">
                         <background></background>
-                        <stone :opacity="shadow_opacity[[col, row]]" :fill="shadow_color[[col, row]]"></stone>
-                        <stone :opacity="stone_opacity[[col, row]]" :fill="colors[[col, row]]"></stone>
+                        <stone v-if="board[[col, row]] == 0"
+                               :opacity="shadow_opacity[[col, row]]"
+                               :fill="color(color_current_move)"></stone>
+                        <stone v-if="board[[col, row]] == 1" :opacity="1.0" fill="black"></stone>
+                        <stone v-if="board[[col, row]] == 2" :opacity="1.0" fill="white"></stone>
                       </svg>
                     </div>
                   </td>

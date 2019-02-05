@@ -82,17 +82,9 @@ var app = new Vue({
     el: '#app',
     data: {
         color_current_move: BLACK,
-        // there is both colors and board which is possibly redundant
-        // the motivation to have both is that "board" keeps the state of the board
-        // while "colors" can change based on mouse-over or mouse-out
-        // in other words: "colors" is what we see, but "board" is really the board
-        // state
-        colors: _reset(_num_rows, _num_columns, 'red'),
         board: _reset(_num_rows, _num_columns, EMPTY),
         groups: _reset(_num_rows, _num_columns, 0),
-        stone_opacity: _reset(_num_rows, _num_columns, 0.0),
         shadow_opacity: _reset(_num_rows, _num_columns, 0.0),
-        shadow_color: _reset(_num_rows, _num_columns, 'red'),
         liberties: {},
     },
     computed: {
@@ -110,7 +102,6 @@ var app = new Vue({
     methods: {
         mouse_over: function(x, y) {
             if (this.board[[x, y]] == EMPTY) {
-                this.shadow_color[[x, y]] = this.color(this.color_current_move);
                 this.shadow_opacity[[x, y]] = 0.5;
             }
         },
@@ -133,19 +124,15 @@ var app = new Vue({
         click: function(x, y) {
             if (this.board[[x, y]] == EMPTY) {
                 this.board[[x, y]] = this.color_current_move;
-                this.colors[[x, y]] = this.color(this.color_current_move);
-                this.stone_opacity[[x, y]] = 1.0;
                 this._compute_groups();
                 this._switch_player();
             }
         },
         reset: function() {
-            this.colors = _reset(_num_rows, _num_columns, 'red');
             this.board = _reset(_num_rows, _num_columns, EMPTY);
             this.groups = _reset(_num_rows, _num_columns, 0);
-            this.stone_opacity = _reset(_num_rows, _num_columns, 0.0),
-                this.shadow_opacity = _reset(_num_rows, _num_columns, 0.0),
-                this.liberties = {};
+            this.shadow_opacity = _reset(_num_rows, _num_columns, 0.0);
+            this.liberties = {};
         },
         random: function() {
             this.reset();
@@ -153,10 +140,6 @@ var app = new Vue({
                 for (var col = 1; col <= _num_columns; col++) {
                     var i = _get_random_int(0, 2);
                     this.board[[row, col]] = i;
-                    this.colors[[row, col]] = this.color(i);
-                    if (i > 0) {
-                        this.stone_opacity[[row, col]] = 1.0;
-                    }
                 }
             }
             this._compute_groups();
@@ -232,8 +215,6 @@ var app = new Vue({
                     return 'black';
                 case WHITE:
                     return 'white';
-                default:
-                    return '#d6b489';
             }
         }
     }
