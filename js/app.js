@@ -73,6 +73,11 @@ Vue.component('stone', {
 })
 
 
+Vue.component('background', {
+    template: '#background-template',
+})
+
+
 var app = new Vue({
     el: '#app',
     data: {
