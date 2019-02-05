@@ -18,6 +18,13 @@
     <title>Go game for the browser</title>
   </head>
   <body>
+
+    <script type="text/x-template" id="stone-template">
+      <g :fill-opacity="opacity">
+        <circle cx="15" cy="15" r="12" :fill="fill" />
+      </g>
+    </script>
+
     <div id="app" v-cloak>
       <div class="container">
 
@@ -52,7 +59,8 @@
                          @click="click(col, row)">
                       <svg width="30" height="30">
                         <rect x="0" y="0" width="30" height="30" fill="#d6b489" />
-                        <circle cx="15" cy="15" r="12" v-bind:fill="colors[[col, row]]" />
+                        <stone :opacity="shadow_opacity[[col, row]]" :fill="shadow_color[[col, row]]"></stone>
+                        <stone :opacity="stone_opacity[[col, row]]" :fill="colors[[col, row]]"></stone>
                       </svg>
                     </div>
                   </td>
