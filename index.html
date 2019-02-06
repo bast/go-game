@@ -65,9 +65,7 @@
         </div>
 
         <div class="row">
-
           <div class="col">
-            <h4>board</h4>
             <table>
               <tbody>
                 <tr v-for="row in (0, num_rows)">
@@ -89,29 +87,6 @@
               </tbody>
             </table>
           </div>
-
-          <div class="col">
-            <h4>groups</h4>
-            <table style="border: 0px;">
-              <tbody>
-                <tr v-for="row in (0, num_rows)">
-                  <td v-for="col in (0, num_columns)">
-                    {{ groups[[col, row]] }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="col">
-            <h4>liberties</h4>
-            <ul>
-              <li v-for="v, k in liberties">
-                {{ k }} {{ v }}
-              </li>
-            </ul>
-          </div>
-
         </div>
 
         <div class="row">

@@ -230,6 +230,7 @@ var app = new Vue({
         color_current_move: BLACK,
         board: _reset(_num_rows, _num_columns, EMPTY),
         groups: _reset(_num_rows, _num_columns, 0),
+        num_groups: 0,
         shadow_opacity: _reset(_num_rows, _num_columns, 0.0),
         liberties: {},
         num_consecutive_passes: 0,
@@ -270,16 +271,22 @@ var app = new Vue({
             this._switch_player();
         },
         click: function(x, y) {
-            if (this.board[[x, y]] == EMPTY) {
-                this.board[[x, y]] = this.color_current_move;
-                this._compute_groups();
-                this.num_consecutive_passes = 0;
-                this._switch_player();
+            // we cannot place a stone on another stone
+            if (this.board[[x, y]] != EMPTY) {
+                return;
             }
+            this.board[[x, y]] = this.color_current_move;
+            this._compute_groups();
+            for (var group of this._groups_without_liberties()) {
+                this._remove_group(group);
+            }
+            this.num_consecutive_passes = 0;
+            this._switch_player();
         },
         reset: function() {
             this.board = _reset(_num_rows, _num_columns, EMPTY);
             this.groups = _reset(_num_rows, _num_columns, 0);
+            this.num_groups = 0;
             this.shadow_opacity = _reset(_num_rows, _num_columns, 0.0);
             this.liberties = {};
             this.num_consecutive_passes = 0;
@@ -358,6 +365,30 @@ var app = new Vue({
                     current_group++;
                 }
             }
+            this.num_groups = current_group - 1;
+        },
+        _remove_group: function(group) {
+            for (var row = 1; row <= this.num_rows; row++) {
+                for (var col = 1; col <= this.num_columns; col++) {
+                    if (this.groups[[row, col]] == group) {
+                        // no self-capture
+                        if (this.board[[row, col]] != this.color_current_move) {
+                            this.board[[row, col]] = EMPTY;
+                        }
+                    }
+                }
+            }
+        },
+        _groups_without_liberties: function() {
+            var r = [];
+            for (var group = 1; group <= this.num_groups; group++) {
+                // this.liberties only contains groups with at
+                // least 1 liberty
+                if (!(group in this.liberties)) {
+                    r.push(group);
+                }
+            }
+            return r;
         },
         color: function(n) {
             switch (n) {
