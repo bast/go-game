@@ -62,6 +62,17 @@ function _reset(num_rows, num_columns, value) {
 }
 
 
+function _copy_board(num_rows, num_columns, old_board) {
+    var new_board = {};
+    for (var row = 1; row <= num_rows; row++) {
+        for (var col = 1; col <= num_columns; col++) {
+            new_board[[row, col]] = old_board[[row, col]];
+        }
+    }
+    return new_board;
+}
+
+
 Vue.component('stone', {
     template: '#stone-template',
     props: ['opacity', 'fill'],
@@ -263,22 +274,38 @@ var app = new Vue({
             this._switch_player();
         },
         click: function(x, y) {
-            // we cannot place a stone on another stone
             if (this.board[[x, y]] != EMPTY) {
+                // we cannot place a stone on another stone
                 return;
             }
-            var board = this.board;
-            board[[x, y]] = this.color_current_move;
-            var t = this._compute_groups(board);
+
+            // we take a copy since the move may not be
+            // allowed - only once we know this is a legal move
+            // we update this.board
+            var temp_board = _copy_board(this.num_rows, this.num_columns, this.board);
+            temp_board[[x, y]] = this.color_current_move;
+
+            var t = this._compute_groups(temp_board);
             var num_groups = t[0];
             var groups = t[1];
             var liberties = t[2];
-            for (var group of this._groups_without_liberties(num_groups, liberties)) {
-                board = this._remove_group(board, group, groups);
+
+            var current_group = groups[[x, y]]
+            var groups_without_liberties = this._groups_without_liberties(num_groups, liberties);
+            if (groups_without_liberties.length == 1) {
+                if (groups_without_liberties[0] == current_group) {
+                    // self-capture is not allowed
+                    return;
+                }
             }
+
+            for (var group of groups_without_liberties) {
+                temp_board = this._remove_group(temp_board, group, groups);
+            }
+
             this.num_consecutive_passes = 0;
             this._switch_player();
-            this.board = board;
+            this.board = _copy_board(this.num_rows, this.num_columns, temp_board);
         },
         reset: function() {
             this.color_current_move = BLACK;
