@@ -25,3 +25,27 @@ table {
 [v-cloak] {
   display: none;
 }
+
+.badge-player-black-on {
+  border: 2px solid #2ba9e1;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.badge-player-black-off {
+  border: 2px solid white;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.badge-player-white-on {
+  border: 2px solid #2ba9e1;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.badge-player-white-off {
+  border: 2px solid white;
+  background-color: #ffffff;
+  color: #000000;
+}

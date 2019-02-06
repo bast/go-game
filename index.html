@@ -52,6 +52,19 @@
         </div>
 
         <div class="row">
+          <div class="col">
+            <div v-if="color(color_current_move) == 'black'">
+              <span class="badge badge-player-black-on">1</span>
+              <span class="badge badge-player-white-off">2</span>
+            </div>
+            <div v-else>
+              <span class="badge badge-player-black-off">1</span>
+              <span class="badge badge-player-white-on">2</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
 
           <div class="col">
             <h4>board</h4>
