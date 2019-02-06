@@ -232,6 +232,7 @@ var app = new Vue({
         groups: _reset(_num_rows, _num_columns, 0),
         shadow_opacity: _reset(_num_rows, _num_columns, 0.0),
         liberties: {},
+        num_consecutive_passes: 0,
     },
     computed: {
         // this is a bit of a hack, will clean this up later
@@ -265,12 +266,14 @@ var app = new Vue({
             }
         },
         pass: function() {
+            this.num_consecutive_passes += 1;
             this._switch_player();
         },
         click: function(x, y) {
             if (this.board[[x, y]] == EMPTY) {
                 this.board[[x, y]] = this.color_current_move;
                 this._compute_groups();
+                this.num_consecutive_passes = 0;
                 this._switch_player();
             }
         },
@@ -279,6 +282,7 @@ var app = new Vue({
             this.groups = _reset(_num_rows, _num_columns, 0);
             this.shadow_opacity = _reset(_num_rows, _num_columns, 0.0);
             this.liberties = {};
+            this.num_consecutive_passes = 0;
         },
         random: function() {
             this.reset();
