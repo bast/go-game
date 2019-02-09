@@ -29,7 +29,7 @@
     <script type="text/x-template" id="background-template">
       <g>
         <rect x="0" y="0" width="30" height="30" fill="#e8b060" />
-        <rect v-for="rectangle in rectangles(col, row, 30.0)"
+        <rect v-for="rectangle in rectangles(col, row, 30.0, num_rows)"
               :x="rectangle.x"
               :y="rectangle.y"
               :width="rectangle.width"
@@ -73,7 +73,7 @@
                          @mouseout="mouse_out(col, row)"
                          @click="click(col, row)">
                       <svg width="30" height="30">
-                        <background :col="col" :row="row"></background>
+                        <background :col="col" :row="row" :num_rows="num_rows"></background>
                         <stone v-if="board[[col, row]] == 0"
                                :opacity="shadow_opacity[[col, row]]"
                                :fill="color(color_current_move)"></stone>
