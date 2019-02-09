@@ -365,6 +365,7 @@ var app = new Vue({
         board: {},
         shadow_opacity: {},
         num_consecutive_passes: 0,
+        num_moves: 1,
     },
     created() {
         this.reset();
@@ -390,6 +391,7 @@ var app = new Vue({
         },
         pass: function() {
             this.num_consecutive_passes += 1;
+            this.num_moves += 1;
             this._switch_player();
         },
         click: function(x, y) {
@@ -428,6 +430,7 @@ var app = new Vue({
             }
 
             this.num_consecutive_passes = 0;
+            this.num_moves += 1;
             this._switch_player();
             this.board = _copy_board(temp_board, this.num_rows, this.num_columns);
         },
@@ -436,6 +439,7 @@ var app = new Vue({
             this.board = _reset(this.num_rows, this.num_columns, EMPTY);
             this.shadow_opacity = _reset(this.num_rows, this.num_columns, 0.0);
             this.num_consecutive_passes = 0;
+            this.num_moves = 1;
         },
         color: function(n) {
             switch (n) {
