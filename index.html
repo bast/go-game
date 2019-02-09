@@ -78,14 +78,23 @@
                         <stone v-if="board[[col, row]] == 0"
                                :opacity="shadow_opacity[[col, row]]"
                                :fill="color(color_current_move)"></stone>
-                        <stone v-if="board[[col, row]] == 1" :opacity="1.0" fill="black"></stone>
-                        <stone v-if="board[[col, row]] == 2" :opacity="1.0" fill="white"></stone>
+                        <stone v-if="board[[col, row]] == BLACK" :opacity="1.0" fill="black"></stone>
+                        <stone v-if="board[[col, row]] == WHITE" :opacity="1.0" fill="white"></stone>
                       </svg>
                     </div>
                   </td>
                 </tr>
               </tbody>
             </table>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            score (under construction)
+            <br>
+            black: {{ score['black'] }}
+            white: {{ score['white'] }}
           </div>
         </div>
 

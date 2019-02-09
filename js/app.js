@@ -2,8 +2,6 @@
 
 
 const EMPTY = 0;
-const BLACK = 1;
-const WHITE = 2;
 
 
 // https://stackoverflow.com/a/20339709
@@ -361,11 +359,14 @@ var app = new Vue({
     data: {
         num_rows: 7,
         num_columns: 7,
-        color_current_move: BLACK,
-        board: {},
-        shadow_opacity: {},
-        num_consecutive_passes: 0,
-        num_moves: 1,
+        BLACK: 1,
+        WHITE: 2,
+        score: null,
+        color_current_move: null,
+        board: null,
+        shadow_opacity: null,
+        num_consecutive_passes: null,
+        num_moves: null,
     },
     created() {
         this.reset();
@@ -381,11 +382,11 @@ var app = new Vue({
         },
         _switch_player: function() {
             switch (this.color_current_move) {
-                case BLACK:
-                    this.color_current_move = WHITE;
+                case this.BLACK:
+                    this.color_current_move = this.WHITE;
                     break;
-                case WHITE:
-                    this.color_current_move = BLACK;
+                case this.WHITE:
+                    this.color_current_move = this.BLACK;
                     break;
             }
         },
@@ -435,7 +436,8 @@ var app = new Vue({
             this.board = _copy_board(temp_board, this.num_rows, this.num_columns);
         },
         reset: function() {
-            this.color_current_move = BLACK;
+            this.score = {'black': 0, 'white': 0};
+            this.color_current_move = this.BLACK;
             this.board = _reset(this.num_rows, this.num_columns, EMPTY);
             this.shadow_opacity = _reset(this.num_rows, this.num_columns, 0.0);
             this.num_consecutive_passes = 0;
@@ -443,9 +445,9 @@ var app = new Vue({
         },
         color: function(n) {
             switch (n) {
-                case BLACK:
+                case this.BLACK:
                     return 'black';
-                case WHITE:
+                case this.WHITE:
                     return 'white';
             }
         }
