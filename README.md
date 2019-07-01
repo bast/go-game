@@ -2,6 +2,4 @@
 
 # go-game
 
-Go game for the browser.
-
-![Example board](board.png)
+Go game for the browser: https://bast.github.io/go-game/
