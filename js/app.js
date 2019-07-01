@@ -5,6 +5,7 @@ const EMPTY = 0;
 
 
 // https://stackoverflow.com/a/20339709
+// returns array without duplicates
 function _unique(array_with_duplicates) {
     var array_uniques = [];
     var items_found = {};
