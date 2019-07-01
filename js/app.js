@@ -360,6 +360,7 @@ var app = new Vue({
     data: {
         num_rows: 7,
         num_columns: 7,
+        num_colors: 2,
         BLACK: 1,
         WHITE: 2,
         score: null,
@@ -382,13 +383,9 @@ var app = new Vue({
             this.shadow_opacity[[x, y]] = 0.0;
         },
         _switch_player: function() {
-            switch (this.color_current_move) {
-                case this.BLACK:
-                    this.color_current_move = this.WHITE;
-                    break;
-                case this.WHITE:
-                    this.color_current_move = this.BLACK;
-                    break;
+            this.color_current_move += 1;
+            if (this.color_current_move > this.num_colors) {
+                this.color_current_move = 1;
             }
         },
         pass: function() {
