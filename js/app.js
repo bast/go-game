@@ -361,8 +361,6 @@ var app = new Vue({
         num_rows: 7,
         num_columns: 7,
         num_colors: 2,
-        BLACK: 1,
-        WHITE: 2,
         score: null,
         color_current_move: null,
         board: null,
@@ -434,20 +432,19 @@ var app = new Vue({
             this.board = _copy_board(temp_board, this.num_rows, this.num_columns);
         },
         reset: function() {
-            this.score = {'black': 0, 'white': 0};
-            this.color_current_move = this.BLACK;
+            this.score = [];
+            for (var i = 0; i < this.num_colors; i++) {
+                this.score.push(0);
+            }
+            this.color_current_move = 1;
             this.board = _reset(this.num_rows, this.num_columns, EMPTY);
             this.shadow_opacity = _reset(this.num_rows, this.num_columns, 0.0);
             this.num_consecutive_passes = 0;
             this.num_moves = 1;
         },
         color: function(n) {
-            switch (n) {
-                case this.BLACK:
-                    return 'black';
-                case this.WHITE:
-                    return 'white';
-            }
+            let colors = ['black', 'white'];
+            return colors[n - 1];
         }
     }
 })
