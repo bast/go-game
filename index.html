@@ -42,6 +42,21 @@
 
         <div class="row top-buffer">
           <div class="col">
+            <div class="form-group">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="radio_9" value="9" v-model="board_size" checked="">
+                <label for="radio_9">9x9</label>
+              </div>
+              <div class="custom-control custom-radio">
+                <input type="radio" id="radio_13" value="13" v-model="board_size">
+                <label for="radio_13">13x13</label>
+              </div>
+              <div class="custom-control custom-radio">
+                <input type="radio" id="radio_19" value="19" v-model="board_size">
+                <label for="radio_19">19x19</label>
+              </div>
+            </div>
+
             <button v-on:click="reset" type="button" class="btn btn-xs btn-success btn-file">start a new game</button>
           </div>
         </div>
@@ -80,7 +95,7 @@
 
         <div class="row top-buffer">
           <div class="col">
-            score: {{ score }}
+            score: {{ score }} (area scoring)
           </div>
         </div>
 

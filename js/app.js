@@ -358,8 +358,9 @@ Vue.component('background', {
 var app = new Vue({
     el: '#app',
     data: {
-        num_rows: 7,
-        num_columns: 7,
+        board_size: 9,
+        num_rows: 9,
+        num_columns: 9,
         num_colors: 2,
         score: null,
         color_current_move: null,
@@ -432,6 +433,8 @@ var app = new Vue({
             this.board = _copy_board(temp_board, this.num_rows, this.num_columns);
         },
         reset: function() {
+            this.num_rows = this.board_size;
+            this.num_columns = this.board_size;
             this.score = Array(this.num_colors).fill(0);
             this.color_current_move = 1;
             this.board = _reset(this.num_rows, this.num_columns, EMPTY);
