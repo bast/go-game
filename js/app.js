@@ -4,6 +4,30 @@
 const EMPTY = 0;
 
 
+// https://stackoverflow.com/a/7616484
+function _hash(num_rows, num_columns, board) {
+
+    var s = '';
+    for (var row = 1; row <= num_rows; row++) {
+        for (var col = 1; col <= num_columns; col++) {
+            var position = [col, row];
+            s += board[position].toString();
+        }
+    }
+
+    var hash = 0;
+    if (s.length === 0) return hash;
+
+    for (var i = 0; i < s.length; i++) {
+        var chr = s.charCodeAt(i);
+        hash = ((hash << 5) - hash) + chr;
+        hash |= 0; // Convert to 32bit integer
+    }
+
+    return hash;
+};
+
+
 // https://stackoverflow.com/a/20339709
 // returns array without duplicates
 function _unique(array_with_duplicates) {
@@ -410,6 +434,7 @@ var app = new Vue({
         score: {},
         color_current_move: null,
         board: null,
+        hashes: [],
         shadow_opacity: null, // shows shadows with possible future stone placement when moving the mouse over the board
         num_consecutive_passes: null,
         num_moves: null,
@@ -446,6 +471,12 @@ var app = new Vue({
             // we update this.board
             var temp_board = _copy_board(this.board, this.num_rows, this.num_columns);
             temp_board[[x, y]] = this.color_current_move;
+
+            // ko rule
+            var hash = _hash(this.num_rows, this.num_columns, temp_board);
+            if (this.hashes.includes(hash)) {
+                return;
+            }
 
             var t = _compute_groups(temp_board, this.num_rows, this.num_columns);
             var groups = t[0];
@@ -488,6 +519,7 @@ var app = new Vue({
             var groups = t[0];
             var position_to_group = t[1];
             this.score = _update_score(this.num_colors, this.num_rows, this.num_columns, this.board, groups, position_to_group);
+            this.hashes.push(hash);
         },
         reset: function() {
             this.num_rows = this.board_size;
@@ -495,6 +527,7 @@ var app = new Vue({
             this.score = {};
             this.color_current_move = 1;
             this.board = _reset(this.num_rows, this.num_columns, EMPTY);
+            this.hashes = [];
             this.shadow_opacity = _reset(this.num_rows, this.num_columns, 0.0);
             this.num_consecutive_passes = 0;
             this.num_moves = 1;
