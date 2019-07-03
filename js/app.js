@@ -22,11 +22,10 @@ function _unique(array_with_duplicates) {
 
 
 function _compute_groups(board, num_rows, num_columns) {
+    var groups = {};
     var position_to_group = _reset(num_rows, num_columns, 0);
-    var group_color = [];
-    var current_group = 1;
-    var bounds = {};
 
+    var current_group = 1;
     for (var row = 1; row <= num_rows; row++) {
         for (var col = 1; col <= num_columns; col++) {
             var position = [col, row];
@@ -36,8 +35,13 @@ function _compute_groups(board, num_rows, num_columns) {
                 continue;
             }
 
+            if (!(current_group in groups)) {
+                groups[current_group] = {};
+                groups[current_group]["bounds"] = {};
+            }
+
             var current_color = board[position];
-            group_color[current_group] = current_color;
+            groups[current_group]["color"] = current_color;
 
             for (var neighbor of _get_neighbors(position)) {
                 var t = _visit_neighbor(board,
@@ -46,9 +50,9 @@ function _compute_groups(board, num_rows, num_columns) {
                                         neighbor,
                                         current_color,
                                         current_group,
-                                        bounds,
+                                        groups,
                                         position_to_group);
-                bounds = t[0];
+                groups = t[0];
                 position_to_group = t[1];
             }
 
@@ -57,8 +61,7 @@ function _compute_groups(board, num_rows, num_columns) {
         }
     }
 
-    var num_groups = current_group - 1;
-    return [num_groups, group_color, position_to_group, bounds];
+    return [groups, position_to_group];
 }
 
 
@@ -101,34 +104,33 @@ function _visit_neighbor(board,
                          neighbor,
                          current_color,
                          current_group,
-                         bounds,
+                         groups,
                          position_to_group) {
 
     // skip if neighbor is outside
     if (_position_outside_board(neighbor, num_rows, num_columns)) {
-        return [bounds, position_to_group];
+        return [groups, position_to_group];
     }
 
     // if neighbor is different, add to the bounds of this group
     var neighbor_color = board[neighbor];
     if (neighbor_color != current_color) {
 
-        var t = [current_group, neighbor_color];
-        if (t in bounds) {
-            bounds[t].push(neighbor);
+        if (neighbor_color in groups[current_group]["bounds"]) {
+            groups[current_group]["bounds"][neighbor_color].push(neighbor);
         } else {
-            bounds[t] = [neighbor];
+            groups[current_group]["bounds"][neighbor_color] = [neighbor];
         }
 
         // remove duplicates
-        bounds[t] = _unique(bounds[t]);
+        groups[current_group]["bounds"][neighbor_color] = _unique(groups[current_group]["bounds"][neighbor_color]);
 
-        return [bounds, position_to_group];
+        return [groups, position_to_group];
     }
 
     // skip if this position already belongs to a group
     if (position_to_group[neighbor] > 0) {
-        return [bounds, position_to_group];
+        return [groups, position_to_group];
     }
 
     // neighbor has same color, add it to this group
@@ -141,13 +143,13 @@ function _visit_neighbor(board,
                                 _neighbor,
                                 current_color,
                                 current_group,
-                                bounds,
+                                groups,
                                 position_to_group);
-        bounds = t[0];
+        groups = t[0];
         position_to_group = t[1];
     }
 
-    return [bounds, position_to_group];
+    return [groups, position_to_group];
 }
 
 
@@ -164,12 +166,12 @@ function _position_outside_board(position, num_rows, num_columns) {
 }
 
 
-function _find_groups_without_liberties(num_groups, group_color, bounds) {
+function _find_groups_without_liberties(groups) {
     var r = [];
-    for (var group = 1; group <= num_groups; group++) {
-        if (group_color[group] > EMPTY) {
-            if (!([[group, EMPTY]] in bounds)) {
-                r.push(group);
+    for (var key in groups) {
+        if (groups[key]["color"] > EMPTY) {
+            if (!(EMPTY in groups[key]["bounds"])) {
+                r.push(key);
             }
         }
     }
@@ -404,10 +406,8 @@ var app = new Vue({
             temp_board[[x, y]] = this.color_current_move;
 
             var t = _compute_groups(temp_board, this.num_rows, this.num_columns);
-            var num_groups = t[0];
-            var group_color = t[1];
-            var position_to_group = t[2];
-            var bounds = t[3];
+            var groups = t[0];
+            var position_to_group = t[1];
 
             console.log("\nposition_to_group:");
             for (var i = 0; i < this.num_columns; i++) {
@@ -418,7 +418,7 @@ var app = new Vue({
                 console.log(s);
             }
 
-            var groups_without_liberties = _find_groups_without_liberties(num_groups, group_color, bounds);
+            var groups_without_liberties = _find_groups_without_liberties(groups);
 
             if (groups_without_liberties.length == 1) {
                 var current_group = position_to_group[[x, y]]
