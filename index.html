@@ -40,12 +40,15 @@
     <div id="app" v-cloak>
       <div class="container">
 
-        <div class="row">
+        <div class="row top-buffer">
           <div class="col">
-            <br>
-            <br>
+            <button v-on:click="reset" type="button" class="btn btn-xs btn-success btn-file">start a new game</button>
+          </div>
+        </div>
+
+        <div class="row top-buffer">
+          <div class="col">
             <button v-on:click="pass" type="button" class="btn btn-xs btn-primary btn-file">pass</button>
-            <button v-on:click="reset" type="button" class="btn btn-xs btn-primary btn-file">reset</button>
             move: {{ num_moves }}
           </div>
         </div>
