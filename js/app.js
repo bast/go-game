@@ -432,10 +432,7 @@ var app = new Vue({
             this.board = _copy_board(temp_board, this.num_rows, this.num_columns);
         },
         reset: function() {
-            this.score = [];
-            for (var i = 0; i < this.num_colors; i++) {
-                this.score.push(0);
-            }
+            this.score = Array(this.num_colors).fill(0);
             this.color_current_move = 1;
             this.board = _reset(this.num_rows, this.num_columns, EMPTY);
             this.shadow_opacity = _reset(this.num_rows, this.num_columns, 0.0);
