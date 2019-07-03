@@ -374,9 +374,7 @@ var app = new Vue({
     },
     methods: {
         mouse_over: function(x, y) {
-            if (this.board[[x, y]] == EMPTY) {
-                this.shadow_opacity[[x, y]] = 0.5;
-            }
+            this.shadow_opacity[[x, y]] = 0.5;
         },
         mouse_out: function(x, y) {
             this.shadow_opacity[[x, y]] = 0.0;
