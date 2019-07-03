@@ -45,13 +45,13 @@ function _compute_groups(board, num_rows, num_columns) {
 
             for (var neighbor of _get_neighbors(position)) {
                 var t = _visit_neighbor(board,
-                                        num_rows,
-                                        num_columns,
-                                        neighbor,
-                                        current_color,
-                                        current_group,
-                                        groups,
-                                        position_to_group);
+                    num_rows,
+                    num_columns,
+                    neighbor,
+                    current_color,
+                    current_group,
+                    groups,
+                    position_to_group);
                 groups = t[0];
                 position_to_group = t[1];
             }
@@ -66,11 +66,11 @@ function _compute_groups(board, num_rows, num_columns) {
 
 
 function _remove_group(board,
-                       num_rows,
-                       num_columns,
-                       color_current_move,
-                       group,
-                       position_to_group) {
+    num_rows,
+    num_columns,
+    color_current_move,
+    group,
+    position_to_group) {
     for (var row = 1; row <= num_rows; row++) {
         for (var col = 1; col <= num_columns; col++) {
             if (position_to_group[[row, col]] == group) {
@@ -99,13 +99,13 @@ function _get_neighbors(position) {
 
 
 function _visit_neighbor(board,
-                         num_rows,
-                         num_columns,
-                         neighbor,
-                         current_color,
-                         current_group,
-                         groups,
-                         position_to_group) {
+    num_rows,
+    num_columns,
+    neighbor,
+    current_color,
+    current_group,
+    groups,
+    position_to_group) {
 
     // skip if neighbor is outside
     if (_position_outside_board(neighbor, num_rows, num_columns)) {
@@ -138,13 +138,13 @@ function _visit_neighbor(board,
     position_to_group[neighbor] = current_group;
     for (var _neighbor of _get_neighbors(neighbor)) {
         var t = _visit_neighbor(board,
-                                num_rows,
-                                num_columns,
-                                _neighbor,
-                                current_color,
-                                current_group,
-                                groups,
-                                position_to_group);
+            num_rows,
+            num_columns,
+            _neighbor,
+            current_color,
+            current_group,
+            groups,
+            position_to_group);
         groups = t[0];
         position_to_group = t[1];
     }
@@ -368,7 +368,7 @@ var app = new Vue({
         score: null,
         color_current_move: null,
         board: null,
-        shadow_opacity: null,  // shows shadows with possible future stone placement when moving the mouse over the board
+        shadow_opacity: null, // shows shadows with possible future stone placement when moving the mouse over the board
         num_consecutive_passes: null,
         num_moves: null,
     },
@@ -413,7 +413,7 @@ var app = new Vue({
             for (var i = 0; i < this.num_columns; i++) {
                 let s = i + ':';
                 for (var j = 0; j < this.num_rows; j++) {
-                    s += ' ' + position_to_group[[j+1, i+1]];
+                    s += ' ' + position_to_group[[j + 1, i + 1]];
                 }
                 console.log(s);
             }
@@ -430,11 +430,11 @@ var app = new Vue({
 
             for (var group of groups_without_liberties) {
                 temp_board = _remove_group(temp_board,
-                                           this.num_rows,
-                                           this.num_columns,
-                                           this.color_current_move,
-                                           group,
-                                           position_to_group);
+                    this.num_rows,
+                    this.num_columns,
+                    this.color_current_move,
+                    group,
+                    position_to_group);
             }
 
             this.num_consecutive_passes = 0;
