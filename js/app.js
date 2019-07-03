@@ -365,7 +365,7 @@ var app = new Vue({
         score: null,
         color_current_move: null,
         board: null,
-        shadow_opacity: null,
+        shadow_opacity: null,  // shows shadows with possible future stone placement when moving the mouse over the board
         num_consecutive_passes: null,
         num_moves: null,
     },
