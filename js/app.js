@@ -21,6 +21,48 @@ function _unique(array_with_duplicates) {
 }
 
 
+function _update_score(num_colors, num_rows, num_columns, board, groups, position_to_group) {
+
+    var score = {};
+    var areas = {};
+
+    for (var color = 1; color <= num_colors; color++) {
+        score[color] = 0;
+        areas[color] = [];
+    }
+
+    // first we find empty areas which only touch one color
+    for (var key in groups) {
+        var color = groups[key]["color"];
+        if (color == EMPTY) {
+            var bounding_colors = Object.keys(groups[key]["bounds"]);
+            if (bounding_colors.length == 1) {
+                areas[bounding_colors[0]].push(Number(key));
+            }
+        }
+    }
+
+    // then we add all stones and areas which belong to one color
+    for (var row = 1; row <= num_rows; row++) {
+        for (var col = 1; col <= num_columns; col++) {
+            var position = [col, row];
+            if (board[position] == EMPTY) {
+                var current_group = position_to_group[position];
+                for (var color = 1; color <= num_colors; color++) {
+                    if (areas[color].includes(current_group)) {
+                        score[color] += 1;
+                    }
+                }
+            } else {
+                score[board[position]] += 1;
+            }
+        }
+    }
+
+    return score;
+}
+
+
 function _compute_groups(board, num_rows, num_columns) {
     var groups = {};
     var position_to_group = _reset(num_rows, num_columns, 0);
@@ -365,7 +407,7 @@ var app = new Vue({
         num_rows: 9,
         num_columns: 9,
         num_colors: 2,
-        score: null,
+        score: {},
         color_current_move: null,
         board: null,
         shadow_opacity: null, // shows shadows with possible future stone placement when moving the mouse over the board
@@ -409,14 +451,14 @@ var app = new Vue({
             var groups = t[0];
             var position_to_group = t[1];
 
-            console.log("\nposition_to_group:");
-            for (var i = 0; i < this.num_columns; i++) {
-                let s = i + ':';
-                for (var j = 0; j < this.num_rows; j++) {
-                    s += ' ' + position_to_group[[j + 1, i + 1]];
-                }
-                console.log(s);
-            }
+            // console.log("\nposition_to_group:");
+            // for (var i = 0; i < this.num_columns; i++) {
+            //     let s = i + ':';
+            //     for (var j = 0; j < this.num_rows; j++) {
+            //         s += ' ' + position_to_group[[j + 1, i + 1]];
+            //     }
+            //     console.log(s);
+            // }
 
             var groups_without_liberties = _find_groups_without_liberties(groups);
 
@@ -441,11 +483,16 @@ var app = new Vue({
             this.num_moves += 1;
             this._switch_player();
             this.board = _copy_board(temp_board, this.num_rows, this.num_columns);
+
+            var t = _compute_groups(this.board, this.num_rows, this.num_columns);
+            var groups = t[0];
+            var position_to_group = t[1];
+            this.score = _update_score(this.num_colors, this.num_rows, this.num_columns, this.board, groups, position_to_group);
         },
         reset: function() {
             this.num_rows = this.board_size;
             this.num_columns = this.board_size;
-            this.score = Array(this.num_colors).fill(0);
+            this.score = {};
             this.color_current_move = 1;
             this.board = _reset(this.num_rows, this.num_columns, EMPTY);
             this.shadow_opacity = _reset(this.num_rows, this.num_columns, 0.0);
