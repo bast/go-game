@@ -84,6 +84,7 @@
                                :fill="color(color_current_move)"></stone>
                         <stone v-if="board[[col, row]] == 1" :opacity="1.0" fill="black"></stone>
                         <stone v-if="board[[col, row]] == 2" :opacity="1.0" fill="white"></stone>
+                        <stone v-if="board[[col, row]] == 3" :opacity="1.0" fill="red"></stone>
                       </svg>
                     </div>
                   </td>
