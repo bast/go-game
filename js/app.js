@@ -22,7 +22,7 @@ function _unique(array_with_duplicates) {
 
 
 function _compute_groups(board, num_rows, num_columns) {
-    var groups = _reset(num_rows, num_columns, 0);
+    var position_to_group = _reset(num_rows, num_columns, 0);
     var liberties = {};
     var current_group = 1;
     for (var row = 1; row <= num_rows; row++) {
@@ -35,7 +35,7 @@ function _compute_groups(board, num_rows, num_columns) {
             }
 
             // skip if we have already visited this stone
-            if (groups[position] > 0) {
+            if (position_to_group[position] > 0) {
                 continue;
             }
 
@@ -49,17 +49,26 @@ function _compute_groups(board, num_rows, num_columns) {
                                         current_color,
                                         current_group,
                                         liberties,
-                                        groups);
+                                        position_to_group);
                 liberties = t[0];
-                groups = t[1];
+                position_to_group = t[1];
             }
 
-            groups[position] = current_group;
+            position_to_group[position] = current_group;
             current_group++;
         }
     }
     var num_groups = current_group - 1;
-    return [num_groups, groups, liberties];
+
+    console.log("\nliberties:");
+    for (var i = 1; i <= num_groups; i++) {
+        console.log(i);
+        for (var liberty of liberties[i]) {
+            console.log(liberty);
+        }
+    }
+
+    return [num_groups, position_to_group, liberties];
 }
 
 
@@ -68,10 +77,10 @@ function _remove_group(board,
                        num_columns,
                        color_current_move,
                        group,
-                       groups) {
+                       position_to_group) {
     for (var row = 1; row <= num_rows; row++) {
         for (var col = 1; col <= num_columns; col++) {
-            if (groups[[row, col]] == group) {
+            if (position_to_group[[row, col]] == group) {
                 // no self-capture
                 if (board[[row, col]] != color_current_move) {
                     board[[row, col]] = EMPTY;
@@ -103,15 +112,15 @@ function _visit_neighbor(board,
                          current_color,
                          current_group,
                          liberties,
-                         groups) {
+                         position_to_group) {
     // skip if neighbor is outside
     if (_position_outside_board(neighbor, num_rows, num_columns)) {
-        return [liberties, groups];
+        return [liberties, position_to_group];
     }
 
     // skip if we have already visited this stone
-    if (groups[neighbor] > 0) {
-        return [liberties, groups];
+    if (position_to_group[neighbor] > 0) {
+        return [liberties, position_to_group];
     }
 
     // if neighbor empty, add to the liberties of this group
@@ -123,16 +132,16 @@ function _visit_neighbor(board,
         }
         // remove duplicates
         liberties[current_group] = _unique(liberties[current_group]);
-        return [liberties, groups];
+        return [liberties, position_to_group];
     }
 
     // neighbor has different color, so skip
     if (board[neighbor] != current_color) {
-        return [liberties, groups];
+        return [liberties, position_to_group];
     }
 
     // neighbor has same color, add it to this group
-    groups[neighbor] = current_group;
+    position_to_group[neighbor] = current_group;
 
     for (var _neighbor of _get_neighbors(neighbor)) {
         var t = _visit_neighbor(board,
@@ -142,11 +151,11 @@ function _visit_neighbor(board,
                                 current_color,
                                 current_group,
                                 liberties,
-                                groups);
+                                position_to_group);
         liberties = t[0];
-        groups = t[1];
+        position_to_group = t[1];
     }
-    return [liberties, groups];
+    return [liberties, position_to_group];
 }
 
 
@@ -404,10 +413,19 @@ var app = new Vue({
 
             var t = _compute_groups(temp_board, this.num_rows, this.num_columns);
             var num_groups = t[0];
-            var groups = t[1];
+            var position_to_group = t[1];
             var liberties = t[2];
 
-            var current_group = groups[[x, y]]
+            console.log("\nposition_to_group:");
+            for (var i = 0; i < this.num_columns; i++) {
+                let s = i + ':';
+                for (var j = 0; j < this.num_rows; j++) {
+                    s += ' ' + position_to_group[[j+1, i+1]];
+                }
+                console.log(s);
+            }
+
+            var current_group = position_to_group[[x, y]]
             var groups_without_liberties = _find_groups_without_liberties(num_groups, liberties);
             if (groups_without_liberties.length == 1) {
                 if (groups_without_liberties[0] == current_group) {
@@ -422,7 +440,7 @@ var app = new Vue({
                                            this.num_columns,
                                            this.color_current_move,
                                            group,
-                                           groups);
+                                           position_to_group);
             }
 
             this.num_consecutive_passes = 0;
