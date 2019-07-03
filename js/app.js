@@ -23,23 +23,21 @@ function _unique(array_with_duplicates) {
 
 function _compute_groups(board, num_rows, num_columns) {
     var position_to_group = _reset(num_rows, num_columns, 0);
-    var liberties = {};
+    var group_color = [];
     var current_group = 1;
+    var bounds = {};
+
     for (var row = 1; row <= num_rows; row++) {
         for (var col = 1; col <= num_columns; col++) {
             var position = [col, row];
 
-            // skip if empty
-            if (board[position] == EMPTY) {
-                continue;
-            }
-
-            // skip if we have already visited this stone
+            // skip if this position already belongs to a group
             if (position_to_group[position] > 0) {
                 continue;
             }
 
             var current_color = board[position];
+            group_color[current_group] = current_color;
 
             for (var neighbor of _get_neighbors(position)) {
                 var t = _visit_neighbor(board,
@@ -48,9 +46,9 @@ function _compute_groups(board, num_rows, num_columns) {
                                         neighbor,
                                         current_color,
                                         current_group,
-                                        liberties,
+                                        bounds,
                                         position_to_group);
-                liberties = t[0];
+                bounds = t[0];
                 position_to_group = t[1];
             }
 
@@ -58,17 +56,9 @@ function _compute_groups(board, num_rows, num_columns) {
             current_group++;
         }
     }
+
     var num_groups = current_group - 1;
-
-    console.log("\nliberties:");
-    for (var i = 1; i <= num_groups; i++) {
-        console.log(i);
-        for (var liberty of liberties[i]) {
-            console.log(liberty);
-        }
-    }
-
-    return [num_groups, position_to_group, liberties];
+    return [num_groups, group_color, position_to_group, bounds];
 }
 
 
@@ -111,38 +101,39 @@ function _visit_neighbor(board,
                          neighbor,
                          current_color,
                          current_group,
-                         liberties,
+                         bounds,
                          position_to_group) {
+
     // skip if neighbor is outside
     if (_position_outside_board(neighbor, num_rows, num_columns)) {
-        return [liberties, position_to_group];
+        return [bounds, position_to_group];
     }
 
-    // skip if we have already visited this stone
-    if (position_to_group[neighbor] > 0) {
-        return [liberties, position_to_group];
-    }
+    // if neighbor is different, add to the bounds of this group
+    var neighbor_color = board[neighbor];
+    if (neighbor_color != current_color) {
 
-    // if neighbor empty, add to the liberties of this group
-    if (board[neighbor] == EMPTY) {
-        if (current_group in liberties) {
-            liberties[current_group].push(neighbor);
+        var t = [current_group, neighbor_color];
+        if (t in bounds) {
+            bounds[t].push(neighbor);
         } else {
-            liberties[current_group] = [neighbor];
+            bounds[t] = [neighbor];
         }
+
         // remove duplicates
-        liberties[current_group] = _unique(liberties[current_group]);
-        return [liberties, position_to_group];
+        bounds[t] = _unique(bounds[t]);
+
+        return [bounds, position_to_group];
     }
 
-    // neighbor has different color, so skip
-    if (board[neighbor] != current_color) {
-        return [liberties, position_to_group];
+    // skip if this position already belongs to a group
+    if (position_to_group[neighbor] > 0) {
+        return [bounds, position_to_group];
     }
 
     // neighbor has same color, add it to this group
+    // and visit its neighbors
     position_to_group[neighbor] = current_group;
-
     for (var _neighbor of _get_neighbors(neighbor)) {
         var t = _visit_neighbor(board,
                                 num_rows,
@@ -150,12 +141,13 @@ function _visit_neighbor(board,
                                 _neighbor,
                                 current_color,
                                 current_group,
-                                liberties,
+                                bounds,
                                 position_to_group);
-        liberties = t[0];
+        bounds = t[0];
         position_to_group = t[1];
     }
-    return [liberties, position_to_group];
+
+    return [bounds, position_to_group];
 }
 
 
@@ -172,13 +164,13 @@ function _position_outside_board(position, num_rows, num_columns) {
 }
 
 
-function _find_groups_without_liberties(num_groups, liberties) {
+function _find_groups_without_liberties(num_groups, group_color, bounds) {
     var r = [];
     for (var group = 1; group <= num_groups; group++) {
-        // liberties only contains groups with at
-        // least 1 liberty
-        if (!(group in liberties)) {
-            r.push(group);
+        if (group_color[group] > EMPTY) {
+            if (!([[group, EMPTY]] in bounds)) {
+                r.push(group);
+            }
         }
     }
     return r;
@@ -413,8 +405,9 @@ var app = new Vue({
 
             var t = _compute_groups(temp_board, this.num_rows, this.num_columns);
             var num_groups = t[0];
-            var position_to_group = t[1];
-            var liberties = t[2];
+            var group_color = t[1];
+            var position_to_group = t[2];
+            var bounds = t[3];
 
             console.log("\nposition_to_group:");
             for (var i = 0; i < this.num_columns; i++) {
@@ -425,9 +418,10 @@ var app = new Vue({
                 console.log(s);
             }
 
-            var current_group = position_to_group[[x, y]]
-            var groups_without_liberties = _find_groups_without_liberties(num_groups, liberties);
+            var groups_without_liberties = _find_groups_without_liberties(num_groups, group_color, bounds);
+
             if (groups_without_liberties.length == 1) {
+                var current_group = position_to_group[[x, y]]
                 if (groups_without_liberties[0] == current_group) {
                     // self-capture is not allowed
                     return;
