@@ -102,7 +102,7 @@
 
         <div class="row">
           <div class="col">
-            <div v-if="num_consecutive_passes == 2" class="alert alert-dismissible alert-danger">
+            <div v-if="num_consecutive_passes == num_colors" class="alert alert-dismissible alert-danger">
               Two consecutive passes: game has ended.
               <button v-on:click="reset" type="button" class="btn-xs btn-success">Start a new game</button>
             </div>
