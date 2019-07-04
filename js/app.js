@@ -432,7 +432,7 @@ var app = new Vue({
         num_columns: 9,
         num_players: 2,
         num_colors: 2,
-        score: {},
+        score: {"1": 0, "2": 0},
         show_score: false,
         color_current_move: null,
         board: null,
@@ -528,6 +528,9 @@ var app = new Vue({
             this.num_columns = parseInt(this.board_size);
             this.num_colors = parseInt(this.num_players);
             this.score = {};
+            for (var color = 1; color <= this.num_colors; color++) {
+                this.score[color] = 0;
+            }
             this.color_current_move = 1;
             this.board = _reset(this.num_rows, this.num_columns, EMPTY);
             this.hashes = [];
