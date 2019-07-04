@@ -432,6 +432,7 @@ var app = new Vue({
         num_columns: 9,
         num_colors: 2,
         score: {},
+        show_score: false,
         color_current_move: null,
         board: null,
         hashes: [],
