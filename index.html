@@ -52,7 +52,7 @@
         <div class="row top-buffer">
 
           <div class="col">
-            <table>
+            <table style="border: 10px solid #533939;">
               <tbody>
                 <tr v-for="row in (0, num_rows)">
                   <td v-for="col in (0, num_columns)">
@@ -64,10 +64,7 @@
                         <stone v-if="board[[col, row]] == 0"
                                :opacity="shadow_opacity[[col, row]]"
                                :fill="color(color_current_move)"></stone>
-                        <stone v-if="board[[col, row]] == 1" :opacity="1.0" fill="black"></stone>
-                        <stone v-if="board[[col, row]] == 2" :opacity="1.0" fill="white"></stone>
-                        <stone v-if="board[[col, row]] == 3" :opacity="1.0" fill="red"></stone>
-                        <stone v-if="board[[col, row]] == 4" :opacity="1.0" fill="blue"></stone>
+                        <stone v-if="board[[col, row]] > 0" :opacity="1.0" :fill="color(board[[col, row]])"></stone>
                       </svg>
                     </div>
                   </td>
@@ -111,9 +108,25 @@
                 <label class="custom-control-label" for="score_checkbox">show live score (area scoring)</label>
               </div>
             </div>
-            <div v-if="show_score">
-              {{ score }}
-            </div>
+            <table>
+              <tbody>
+                <tr v-for="i in num_colors">
+                  <td>
+                    <div v-if="i == color_current_move">
+                      <i class="fa fa-arrow-right fa-fw"></i>
+                    </div>
+                  </td>
+                  <td>
+                    <svg width="30" height="30">
+                      <stone :opacity="1.0" :fill="color(i)"></stone>
+                    </svg>
+                  </td>
+                  <td v-if="show_score">
+                    &nbsp; {{ score[i] }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
 
           </div> <!-- right panel -->
 
