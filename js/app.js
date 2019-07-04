@@ -522,8 +522,8 @@ var app = new Vue({
             this.hashes.push(hash);
         },
         reset: function() {
-            this.num_rows = this.board_size;
-            this.num_columns = this.board_size;
+            this.num_rows = parseInt(this.board_size);
+            this.num_columns = parseInt(this.board_size);
             this.score = {};
             this.color_current_move = 1;
             this.board = _reset(this.num_rows, this.num_columns, EMPTY);

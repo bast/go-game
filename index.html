@@ -43,25 +43,24 @@
         <div class="row top-buffer">
           <div class="col">
             <div class="form-group">
-              <div class="custom-control custom-radio">
-                <input type="radio" id="radio_9" value="9" v-model="board_size" checked="">
-                <label for="radio_9">9x9</label>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="radio_9" value="9" v-model="board_size" checked="">
+                <label class="form-check-label" for="radio_9">9x9</label>
               </div>
-              <div class="custom-control custom-radio">
-                <input type="radio" id="radio_13" value="13" v-model="board_size">
-                <label for="radio_13">13x13</label>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="radio_13" value="13" v-model="board_size">
+                <label class="form-check-label" for="radio_13">13x13</label>
               </div>
-              <div class="custom-control custom-radio">
-                <input type="radio" id="radio_19" value="19" v-model="board_size">
-                <label for="radio_19">19x19</label>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="radio_19" value="19" v-model="board_size">
+                <label class="form-check-label" for="radio_19">19x19</label>
               </div>
+              <button v-on:click="reset" type="button" class="btn btn-xs btn-success btn-file">start a new game</button>
             </div>
-
-            <button v-on:click="reset" type="button" class="btn btn-xs btn-success btn-file">start a new game</button>
           </div>
         </div>
 
-        <div class="row top-buffer">
+        <div class="row">
           <div class="col">
             <button v-on:click="pass" type="button" class="btn btn-xs btn-primary btn-file">pass</button>
             move: {{ num_moves }}
