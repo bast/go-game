@@ -43,42 +43,14 @@
 
         <div class="row top-buffer">
           <div class="col">
-            <div class="form-group">
-
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" id="radio_9" value="9" v-model="board_size" checked="">
-                <label class="form-check-label" for="radio_9">9x9</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" id="radio_13" value="13" v-model="board_size">
-                <label class="form-check-label" for="radio_13">13x13</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" id="radio_19" value="19" v-model="board_size">
-                <label class="form-check-label" for="radio_19">19x19</label>
-              </div>
-
-              <button v-on:click="reset" type="button" class="btn btn-xs btn-success btn-file">start a new game</button>
-
-              <select v-model="num_players" id="num_players">
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-              </select>
-              <label for="num_players">players</label>
-
+            <div v-if="num_consecutive_passes == num_colors" class="alert alert-dismissible alert-danger">
+              {{ num_players }} consecutive passes: game has ended.
             </div>
           </div>
         </div>
 
-        <div class="row">
-          <div class="col">
-            <button v-on:click="pass" type="button" class="btn btn-xs btn-primary btn-file">pass</button>
-            move: {{ num_moves }}
-          </div>
-        </div>
-
         <div class="row top-buffer">
+
           <div class="col">
             <table>
               <tbody>
@@ -102,11 +74,37 @@
                 </tr>
               </tbody>
             </table>
-          </div>
-        </div>
+          </div> <!-- board -->
 
-        <div class="row top-buffer">
           <div class="col">
+
+            <div class="form-group">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="radio_9" value="9" v-model="board_size" checked="">
+                <label class="form-check-label" for="radio_9">9x9</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="radio_13" value="13" v-model="board_size">
+                <label class="form-check-label" for="radio_13">13x13</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="radio_19" value="19" v-model="board_size">
+                <label class="form-check-label" for="radio_19">19x19</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <select v-model="num_players" id="num_players">
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+              </select>
+              <label for="num_players">players</label>
+            </div>
+            <div class="form-group">
+              <button v-on:click="pass" type="button" class="btn btn-xs btn-primary btn-file">pass</button>
+              <button v-on:click="reset" type="button" class="btn btn-xs btn-success btn-file">start a new game</button>
+            </div>
+
             <div class="form-group">
               <div class="custom-control custom-switch">
                 <input type="checkbox" class="custom-control-input" id="score_checkbox" checked="" v-model="show_score">
@@ -116,16 +114,9 @@
             <div v-if="show_score">
               {{ score }}
             </div>
-          </div>
-        </div>
 
-        <div class="row">
-          <div class="col">
-            <div v-if="num_consecutive_passes == num_colors" class="alert alert-dismissible alert-danger">
-              Two consecutive passes: game has ended.
-              <button v-on:click="reset" type="button" class="btn-xs btn-success">Start a new game</button>
-            </div>
-          </div>
+          </div> <!-- right panel -->
+
         </div>
 
       </div>
