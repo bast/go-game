@@ -430,6 +430,7 @@ var app = new Vue({
         board_size: 9,
         num_rows: 9,
         num_columns: 9,
+        num_players: 2,
         num_colors: 2,
         score: {},
         show_score: false,
@@ -525,6 +526,7 @@ var app = new Vue({
         reset: function() {
             this.num_rows = parseInt(this.board_size);
             this.num_columns = parseInt(this.board_size);
+            this.num_colors = parseInt(this.num_players);
             this.score = {};
             this.color_current_move = 1;
             this.board = _reset(this.num_rows, this.num_columns, EMPTY);
@@ -534,7 +536,7 @@ var app = new Vue({
             this.num_moves = 1;
         },
         color: function(n) {
-            let colors = ['black', 'white'];
+            let colors = ['black', 'white', 'red', 'blue'];
             return colors[n - 1];
         }
     }
