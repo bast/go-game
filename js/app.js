@@ -484,15 +484,6 @@ var app = new Vue({
             var groups = t[0];
             var position_to_group = t[1];
 
-            // console.log("\nposition_to_group:");
-            // for (var i = 0; i < this.num_columns; i++) {
-            //     let s = i + ':';
-            //     for (var j = 0; j < this.num_rows; j++) {
-            //         s += ' ' + position_to_group[[j + 1, i + 1]];
-            //     }
-            //     console.log(s);
-            // }
-
             var groups_without_liberties = _find_groups_without_liberties(groups);
 
             if (groups_without_liberties.length == 1) {
