@@ -5,6 +5,8 @@
 
 Go game for the browser: https://bast.github.io/go-game/
 
+![go game](img/go.png)
+
 
 ## Authors
 
