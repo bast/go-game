@@ -5,11 +5,11 @@ const EMPTY = 0;
 
 
 // https://stackoverflow.com/a/7616484
-function _hash(num_rows, num_columns, board) {
+function _hash(num_rows, num_cols, board) {
 
     var s = '';
     for (var row = 1; row <= num_rows; row++) {
-        for (var col = 1; col <= num_columns; col++) {
+        for (var col = 1; col <= num_cols; col++) {
             var position = [col, row];
             s += board[position].toString();
         }
@@ -45,7 +45,7 @@ function _unique(array_with_duplicates) {
 }
 
 
-function _update_score(num_colors, num_rows, num_columns, board, groups, position_to_group) {
+function _update_score(num_colors, num_rows, num_cols, board, groups, position_to_group) {
 
     var score = {};
     var areas = {};
@@ -68,7 +68,7 @@ function _update_score(num_colors, num_rows, num_columns, board, groups, positio
 
     // then we add all stones and areas which belong to one color
     for (var row = 1; row <= num_rows; row++) {
-        for (var col = 1; col <= num_columns; col++) {
+        for (var col = 1; col <= num_cols; col++) {
             var position = [col, row];
             if (board[position] == EMPTY) {
                 var current_group = position_to_group[position];
@@ -87,13 +87,13 @@ function _update_score(num_colors, num_rows, num_columns, board, groups, positio
 }
 
 
-function _compute_groups(board, num_rows, num_columns) {
+function _compute_groups(board, num_rows, num_cols) {
     var groups = {};
-    var position_to_group = _reset(num_rows, num_columns, 0);
+    var position_to_group = _reset(num_rows, num_cols, 0);
 
     var current_group = 1;
     for (var row = 1; row <= num_rows; row++) {
-        for (var col = 1; col <= num_columns; col++) {
+        for (var col = 1; col <= num_cols; col++) {
             var position = [col, row];
 
             // skip if this position already belongs to a group
@@ -112,7 +112,7 @@ function _compute_groups(board, num_rows, num_columns) {
             for (var neighbor of _get_neighbors(position)) {
                 var t = _visit_neighbor(board,
                     num_rows,
-                    num_columns,
+                    num_cols,
                     neighbor,
                     current_color,
                     current_group,
@@ -133,12 +133,12 @@ function _compute_groups(board, num_rows, num_columns) {
 
 function _remove_group(board,
     num_rows,
-    num_columns,
+    num_cols,
     color_current_move,
     group,
     position_to_group) {
     for (var row = 1; row <= num_rows; row++) {
-        for (var col = 1; col <= num_columns; col++) {
+        for (var col = 1; col <= num_cols; col++) {
             if (position_to_group[[row, col]] == group) {
                 // no self-capture
                 if (board[[row, col]] != color_current_move) {
@@ -166,7 +166,7 @@ function _get_neighbors(position) {
 
 function _visit_neighbor(board,
     num_rows,
-    num_columns,
+    num_cols,
     neighbor,
     current_color,
     current_group,
@@ -174,7 +174,7 @@ function _visit_neighbor(board,
     position_to_group) {
 
     // skip if neighbor is outside
-    if (_position_outside_board(neighbor, num_rows, num_columns)) {
+    if (_position_outside_board(neighbor, num_rows, num_cols)) {
         return [groups, position_to_group];
     }
 
@@ -205,7 +205,7 @@ function _visit_neighbor(board,
     for (var _neighbor of _get_neighbors(neighbor)) {
         var t = _visit_neighbor(board,
             num_rows,
-            num_columns,
+            num_cols,
             _neighbor,
             current_color,
             current_group,
@@ -219,12 +219,12 @@ function _visit_neighbor(board,
 }
 
 
-function _position_outside_board(position, num_rows, num_columns) {
+function _position_outside_board(position, num_rows, num_cols) {
     var x = position[0];
     var y = position[1];
 
     if (x < 1) return true;
-    if (x > num_columns) return true;
+    if (x > num_cols) return true;
     if (y < 1) return true;
     if (y > num_rows) return true;
 
@@ -245,10 +245,10 @@ function _find_groups_without_liberties(groups) {
 }
 
 
-function _reset(num_rows, num_columns, value) {
+function _reset(num_rows, num_cols, value) {
     var array = {};
     for (var row = 1; row <= num_rows; row++) {
-        for (var col = 1; col <= num_columns; col++) {
+        for (var col = 1; col <= num_cols; col++) {
             array[[row, col]] = value;
         }
     }
@@ -256,10 +256,10 @@ function _reset(num_rows, num_columns, value) {
 }
 
 
-function _copy_board(old_board, num_rows, num_columns) {
+function _copy_board(old_board, num_rows, num_cols) {
     var new_board = {};
     for (var row = 1; row <= num_rows; row++) {
-        for (var col = 1; col <= num_columns; col++) {
+        for (var col = 1; col <= num_cols; col++) {
             new_board[[row, col]] = old_board[[row, col]];
         }
     }
@@ -277,13 +277,13 @@ function _array_contains_tuple(a, t) {
 }
 
 
-function _is_hoshi(row, col, num_rows, num_columns) {
+function _is_hoshi(row, col, num_rows, num_cols) {
 
     var stars = [];
 
-    stars.push([(num_rows + 1) / 2, (num_columns + 1) / 2]);
+    stars.push([(num_rows + 1) / 2, (num_cols + 1) / 2]);
 
-    if (num_rows == 9 && num_columns == 9) {
+    if (num_rows == 9 && num_cols == 9) {
         stars.push([3, 3]);
         stars.push([3, 7]);
         stars.push([7, 3]);
@@ -291,7 +291,7 @@ function _is_hoshi(row, col, num_rows, num_columns) {
         return _array_contains_tuple(stars, [row, col]);
     }
 
-    if (num_rows == 13 && num_columns == 13) {
+    if (num_rows == 13 && num_cols == 13) {
         stars.push([4, 4]);
         stars.push([4, 10]);
         stars.push([10, 4]);
@@ -396,7 +396,7 @@ Vue.component('board-hoshi', {
 
 
 Vue.component('board-grid', {
-    props: ['col', 'row', 'num_columns', 'num_rows'],
+    props: ['col', 'row', 'num_cols', 'num_rows'],
     render(createElement) {
 
         // top left
@@ -409,7 +409,7 @@ Vue.component('board-grid', {
         }
 
         // top right
-        if (this.col == this.num_columns && this.row == 1) {
+        if (this.col == this.num_cols && this.row == 1) {
             return createElement('board-corner', {
                 props: {
                     rotate: "rotate(90 15 15)"
@@ -427,7 +427,7 @@ Vue.component('board-grid', {
         }
 
         // bottom right
-        if (this.col == this.num_columns && this.row == this.num_rows) {
+        if (this.col == this.num_cols && this.row == this.num_rows) {
             return createElement('board-corner', {
                 props: {
                     rotate: "rotate(180 15 15)"
@@ -463,7 +463,7 @@ Vue.component('board-grid', {
         }
 
         // right edge
-        if (this.col == this.num_columns) {
+        if (this.col == this.num_cols) {
             return createElement('board-edge', {
                 props: {
                     rotate: "rotate(90 15 15)"
@@ -472,7 +472,7 @@ Vue.component('board-grid', {
         }
 
         // somewhere in the middle
-        if (_is_hoshi(this.row, this.col, this.num_rows, this.num_columns)) {
+        if (_is_hoshi(this.row, this.col, this.num_rows, this.num_cols)) {
             return createElement('board-hoshi');
         } else {
             return createElement('board-any');
@@ -486,7 +486,7 @@ var app = new Vue({
     data: {
         board_size: 9,
         num_rows: 9,
-        num_columns: 9,
+        num_cols: 9,
         num_players: 2,
         num_colors: 2,
         score: {
@@ -531,16 +531,16 @@ var app = new Vue({
             // we take a copy since the move may not be
             // allowed - only once we know this is a legal move
             // we update this.board
-            var temp_board = _copy_board(this.board, this.num_rows, this.num_columns);
+            var temp_board = _copy_board(this.board, this.num_rows, this.num_cols);
             temp_board[[x, y]] = this.color_current_move;
 
             // ko rule
-            var hash = _hash(this.num_rows, this.num_columns, temp_board);
+            var hash = _hash(this.num_rows, this.num_cols, temp_board);
             if (this.hashes.includes(hash)) {
                 return;
             }
 
-            var t = _compute_groups(temp_board, this.num_rows, this.num_columns);
+            var t = _compute_groups(temp_board, this.num_rows, this.num_cols);
             var groups = t[0];
             var position_to_group = t[1];
 
@@ -557,7 +557,7 @@ var app = new Vue({
             for (var group of groups_without_liberties) {
                 temp_board = _remove_group(temp_board,
                     this.num_rows,
-                    this.num_columns,
+                    this.num_cols,
                     this.color_current_move,
                     group,
                     position_to_group);
@@ -566,26 +566,26 @@ var app = new Vue({
             this.num_consecutive_passes = 0;
             this.num_moves += 1;
             this._switch_player();
-            this.board = _copy_board(temp_board, this.num_rows, this.num_columns);
+            this.board = _copy_board(temp_board, this.num_rows, this.num_cols);
 
-            var t = _compute_groups(this.board, this.num_rows, this.num_columns);
+            var t = _compute_groups(this.board, this.num_rows, this.num_cols);
             var groups = t[0];
             var position_to_group = t[1];
-            this.score = _update_score(this.num_colors, this.num_rows, this.num_columns, this.board, groups, position_to_group);
+            this.score = _update_score(this.num_colors, this.num_rows, this.num_cols, this.board, groups, position_to_group);
             this.hashes.push(hash);
         },
         reset: function() {
             this.num_rows = parseInt(this.board_size);
-            this.num_columns = parseInt(this.board_size);
+            this.num_cols = parseInt(this.board_size);
             this.num_colors = parseInt(this.num_players);
             this.score = {};
             for (var color = 1; color <= this.num_colors; color++) {
                 this.score[color] = 0;
             }
             this.color_current_move = 1;
-            this.board = _reset(this.num_rows, this.num_columns, EMPTY);
+            this.board = _reset(this.num_rows, this.num_cols, EMPTY);
             this.hashes = [];
-            this.shadow_opacity = _reset(this.num_rows, this.num_columns, 0.0);
+            this.shadow_opacity = _reset(this.num_rows, this.num_cols, 0.0);
             this.num_consecutive_passes = 0;
             this.num_moves = 1;
         },

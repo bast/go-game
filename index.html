@@ -35,7 +35,7 @@
             <table style="border: 10px solid #533939; background: #e8b060">
               <tbody>
                 <tr v-for="row in (0, num_rows)">
-                  <td v-for="col in (0, num_columns)">
+                  <td v-for="col in (0, num_cols)">
                     <div @mouseover="mouse_over(col, row)"
                          @mouseout="mouse_out(col, row)"
                          @click="click(col, row)">
@@ -43,7 +43,7 @@
                         <g>
                           <rect x="0" y="0" width="30" height="30" fill="#e8b060" />
                         </g>
-                        <board-grid :col="col" :row="row" :num_columns="num_columns" :num_rows="num_rows"></board-grid>
+                        <board-grid :col="col" :row="row" :num_cols="num_cols" :num_rows="num_rows"></board-grid>
                         <stone v-if="board[[col, row]] == 0"
                                :opacity="shadow_opacity[[col, row]]"
                                :fill="color(color_current_move)"></stone>
