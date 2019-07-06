@@ -279,7 +279,6 @@ Vue.component('stone', {
 Vue.component('background', {
     props: ['col', 'row', 'num_rows', 'num_columns'],
     template: `<g>
-                 <rect x="0" y="0" width="30" height="30" fill="#e8b060" />
                  <rect v-for="rectangle in rectangles(col, row, 30.0, num_rows)"
                        :x="rectangle.x"
                        :y="rectangle.y"

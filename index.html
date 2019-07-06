@@ -40,6 +40,9 @@
                          @mouseout="mouse_out(col, row)"
                          @click="click(col, row)">
                       <svg width="30" height="30">
+                        <g>
+                          <rect x="0" y="0" width="30" height="30" fill="#e8b060" />
+                        </g>
                         <background :col="col" :row="row" :num_rows="num_rows" :num_rows="num_columns"></background>
                         <stone v-if="board[[col, row]] == 0"
                                :opacity="shadow_opacity[[col, row]]"
