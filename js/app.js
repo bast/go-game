@@ -276,160 +276,134 @@ Vue.component('stone', {
 })
 
 
-Vue.component('board-grid', {
-    props: ['col', 'row', 'num_rows', 'num_columns'],
-    template: `<g>
-                 <rect v-for="rectangle in rectangles(col, row, 30.0, num_rows)"
-                       :x="rectangle.x"
-                       :y="rectangle.y"
-                       :width="rectangle.width"
-                       :height="rectangle.height"
+Vue.component('board-corner', {
+    props: ['rotate'],
+    template: `<g :transform="rotate">
+                 <rect x="14.0"
+                       y="15.0"
+                       width="2.0"
+                       height="15.0"
                        fill="#533939" />
-               </g>`,
-    methods: {
-        rectangles: function(col, row, dim, num_rows) {
-            var r = [];
-            var v = 1.0;
-            var w = 2.0 * v;
-            var l = 0.5 * dim;
-            switch (row) {
-                case 1:
-                    switch (col) {
-                        case 1:
-                            r.push({
-                                x: l,
-                                y: l,
-                                width: l,
-                                height: w
-                            });
-                            r.push({
-                                x: l,
-                                y: l,
-                                width: w,
-                                height: l
-                            });
-                            break;
-                        case num_rows:
-                            r.push({
-                                x: 0,
-                                y: l,
-                                width: l,
-                                height: w
-                            });
-                            r.push({
-                                x: l,
-                                y: l,
-                                width: w,
-                                height: l
-                            });
-                            break;
-                        default:
-                            r.push({
-                                x: 0,
-                                y: l,
-                                width: 2.0 * l,
-                                height: w
-                            });
-                            r.push({
-                                x: l,
-                                y: l,
-                                width: v,
-                                height: l
-                            });
-                    }
-                    break;
-                case num_rows:
-                    switch (col) {
-                        case 1:
-                            r.push({
-                                x: l,
-                                y: l,
-                                width: l,
-                                height: w
-                            });
-                            r.push({
-                                x: l,
-                                y: 0,
-                                width: w,
-                                height: l
-                            });
-                            break;
-                        case num_rows:
-                            r.push({
-                                x: 0,
-                                y: l,
-                                width: l,
-                                height: w
-                            });
-                            r.push({
-                                x: l,
-                                y: 0,
-                                width: w,
-                                height: l
-                            });
-                            break;
-                        default:
-                            r.push({
-                                x: 0,
-                                y: l,
-                                width: 2.0 * l,
-                                height: w
-                            });
-                            r.push({
-                                x: l,
-                                y: 0,
-                                width: v,
-                                height: l
-                            });
-                    }
-                    break;
-                default:
-                    switch (col) {
-                        case 1:
-                            r.push({
-                                x: l,
-                                y: 0,
-                                width: w,
-                                height: 2.0 * l
-                            });
-                            r.push({
-                                x: l,
-                                y: l,
-                                width: l,
-                                height: v
-                            });
-                            break;
-                        case num_rows:
-                            r.push({
-                                x: l,
-                                y: 0,
-                                width: w,
-                                height: 2.0 * l
-                            });
-                            r.push({
-                                x: 0,
-                                y: l,
-                                width: l,
-                                height: v
-                            });
-                            break;
-                        default:
-                            r.push({
-                                x: 0,
-                                y: l,
-                                width: 2.0 * l,
-                                height: v
-                            });
-                            r.push({
-                                x: l,
-                                y: 0,
-                                width: v,
-                                height: 2.0 * l
-                            });
-                    }
-            }
-            return r;
-        },
+                 <rect x="14.0"
+                       y="14.0"
+                       width="16.0"
+                       height="2.0"
+                       fill="#533939" />
+               </g>`
+})
+
+
+Vue.component('board-edge', {
+    props: ['rotate'],
+    template: `<g :transform="rotate">
+                 <rect x="14.5"
+                       y="15.0"
+                       width="1.0"
+                       height="15.0"
+                       fill="#533939" />
+                 <rect x="0.0"
+                       y="14.0"
+                       width="30.0"
+                       height="2.0"
+                       fill="#533939" />
+               </g>`
+})
+
+
+Vue.component('board-any', {
+    template: `<g>
+                 <rect x="14.5"
+                       y="0.0"
+                       width="1.0"
+                       height="30.0"
+                       fill="#533939" />
+                 <rect x="0.0"
+                       y="14.5"
+                       width="30.0"
+                       height="1.0"
+                       fill="#533939" />
+               </g>`
+})
+
+
+Vue.component('board-grid', {
+    props: ['col', 'row', 'num_columns', 'num_rows'],
+    render(createElement) {
+
+        // top left
+        if (this.col == 1 && this.row == 1) {
+            return createElement('board-corner', {
+                props: {
+                    rotate: "rotate(0 15 15)"
+                }
+            });
+        }
+
+        // top right
+        if (this.col == this.num_columns && this.row == 1) {
+            return createElement('board-corner', {
+                props: {
+                    rotate: "rotate(90 15 15)"
+                }
+            });
+        }
+
+        // bottom left
+        if (this.col == 1 && this.row == this.num_rows) {
+            return createElement('board-corner', {
+                props: {
+                    rotate: "rotate(270 15 15)"
+                }
+            });
+        }
+
+        // bottom right
+        if (this.col == this.num_columns && this.row == this.num_rows) {
+            return createElement('board-corner', {
+                props: {
+                    rotate: "rotate(180 15 15)"
+                }
+            });
+        }
+
+        // top edge
+        if (this.row == 1) {
+            return createElement('board-edge', {
+                props: {
+                    rotate: "rotate(0 15 15)"
+                }
+            });
+        }
+
+        // bottom edge
+        if (this.row == this.num_rows) {
+            return createElement('board-edge', {
+                props: {
+                    rotate: "rotate(180 15 15)"
+                }
+            });
+        }
+
+        // left edge
+        if (this.col == 1) {
+            return createElement('board-edge', {
+                props: {
+                    rotate: "rotate(270 15 15)"
+                }
+            });
+        }
+
+        // right edge
+        if (this.col == this.num_columns) {
+            return createElement('board-edge', {
+                props: {
+                    rotate: "rotate(90 15 15)"
+                }
+            });
+        }
+
+        // somewhere in the middle
+        return createElement('board-any');
     }
 })
 
