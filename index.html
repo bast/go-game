@@ -45,9 +45,17 @@
                         </g>
                         <board-grid :col="col" :row="row" :num_cols="num_cols" :num_rows="num_rows"></board-grid>
                         <stone v-if="board[[col, row]] == 0"
+                               :cx="15.0"
+                               :cy="15.0"
                                :opacity="shadow_opacity[[col, row]]"
                                :fill="color(color_current_move)"></stone>
-                        <stone-with-shadow v-if="board[[col, row]] > 0" :opacity="1.0" :fill="color(board[[col, row]])"></stone-with-shadow>
+                        <stone-shadow v-if="board[[col, row]] > 0"
+                                      :cx="18.0" :cy="18.0"></stone-shadow>
+                        <stone v-if="board[[col, row]] > 0"
+                               :cx="15.0"
+                               :cy="15.0"
+                               :opacity="1.0"
+                               :fill="color(board[[col, row]])"></stone>
                       </svg>
                     </div>
                   </td>

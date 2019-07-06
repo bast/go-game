@@ -311,19 +311,18 @@ function _is_hoshi(row, col, num_rows, num_cols) {
 }
 
 
-Vue.component('stone-with-shadow', {
-    props: ['opacity', 'fill'],
-    template: `<g :fill-opacity="opacity">
-                 <circle cx="18" cy="18" r="12" fill="black" :fill-opacity="0.2*opacity"/>
-                 <circle cx="15" cy="15" r="12" :fill="fill" />
+Vue.component('stone-shadow', {
+    props: ['cx', 'cy'],
+    template: `<g>
+                 <circle :cx="cx" :cy="cy" r="12" fill="black" :fill-opacity="0.2"/>
                </g>`
 })
 
 
 Vue.component('stone', {
-    props: ['fill'],
+    props: ['cx', 'cy', 'fill'],
     template: `<g>
-                 <circle cx="15" cy="15" r="12" :fill="fill" />
+                 <circle :cx="cx" :cy="cy" r="12" :fill="fill" />
                </g>`
 })
 
