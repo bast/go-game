@@ -276,7 +276,7 @@ Vue.component('stone', {
 })
 
 
-Vue.component('background', {
+Vue.component('board-grid', {
     props: ['col', 'row', 'num_rows', 'num_columns'],
     template: `<g>
                  <rect v-for="rectangle in rectangles(col, row, 30.0, num_rows)"
