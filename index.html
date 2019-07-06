@@ -47,7 +47,7 @@
                         <stone v-if="board[[col, row]] == 0"
                                :opacity="shadow_opacity[[col, row]]"
                                :fill="color(color_current_move)"></stone>
-                        <stone v-if="board[[col, row]] > 0" :opacity="1.0" :fill="color(board[[col, row]])"></stone>
+                        <stone-with-shadow v-if="board[[col, row]] > 0" :opacity="1.0" :fill="color(board[[col, row]])"></stone-with-shadow>
                       </svg>
                     </div>
                   </td>
