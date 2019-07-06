@@ -268,14 +268,25 @@ function _copy_board(old_board, num_rows, num_columns) {
 
 
 Vue.component('stone', {
-    template: '#stone-template',
     props: ['opacity', 'fill'],
+    template: `<g :fill-opacity="opacity">
+                 <circle cx="18" cy="18" r="12" fill="black" :fill-opacity="0.2*opacity"/>
+                 <circle cx="15" cy="15" r="12" :fill="fill" />
+               </g>`
 })
 
 
 Vue.component('background', {
-    template: '#background-template',
-    props: ['col', 'row', 'num_rows'],
+    props: ['col', 'row', 'num_rows', 'num_columns'],
+    template: `<g>
+                 <rect x="0" y="0" width="30" height="30" fill="#e8b060" />
+                 <rect v-for="rectangle in rectangles(col, row, 30.0, num_rows)"
+                       :x="rectangle.x"
+                       :y="rectangle.y"
+                       :width="rectangle.width"
+                       :height="rectangle.height"
+                       fill="#533939" />
+               </g>`,
     methods: {
         rectangles: function(col, row, dim, num_rows) {
             var r = [];
