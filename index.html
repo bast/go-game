@@ -60,7 +60,7 @@
                          @mouseout="mouse_out(col, row)"
                          @click="click(col, row)">
                       <svg width="30" height="30">
-                        <background :col="col" :row="row" :num_rows="num_rows"></background>
+                        <background :col="col" :row="row" :num_rows="num_rows" :num_rows="num_columns"></background>
                         <stone v-if="board[[col, row]] == 0"
                                :opacity="shadow_opacity[[col, row]]"
                                :fill="color(color_current_move)"></stone>
@@ -74,6 +74,11 @@
           </div> <!-- board -->
 
           <div class="col">
+
+            <p>
+              go game for the browser
+              (<a href="https://github.com/bast/go-game" target="_blank">authors and source code</a>)
+            </p>
 
             <div class="form-group">
               <div class="form-check form-check-inline">
@@ -105,7 +110,10 @@
             <div class="form-group">
               <div class="custom-control custom-switch">
                 <input type="checkbox" class="custom-control-input" id="score_checkbox" checked="" v-model="show_score">
-                <label class="custom-control-label" for="score_checkbox">show live score (area scoring)</label>
+                <label class="custom-control-label" for="score_checkbox">
+                  show live score
+                  (<a href="https://en.wikipedia.org/wiki/Rules_of_Go#Area_scoring" target="_blank">area scoring</a>)
+                </label>
               </div>
             </div>
             <table>
