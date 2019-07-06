@@ -267,6 +267,50 @@ function _copy_board(old_board, num_rows, num_columns) {
 }
 
 
+function _array_contains_tuple(a, t) {
+    for (const element of a) {
+        if (t[0] == element[0] && t[1] == element[1]) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+function _is_hoshi(row, col, num_rows, num_columns) {
+
+    var stars = [];
+
+    stars.push([(num_rows + 1) / 2, (num_columns + 1) / 2]);
+
+    if (num_rows == 9 && num_columns == 9) {
+        stars.push([3, 3]);
+        stars.push([3, 7]);
+        stars.push([7, 3]);
+        stars.push([7, 7]);
+        return _array_contains_tuple(stars, [row, col]);
+    }
+
+    if (num_rows == 13 && num_columns == 13) {
+        stars.push([4, 4]);
+        stars.push([4, 10]);
+        stars.push([10, 4]);
+        stars.push([10, 10]);
+        return _array_contains_tuple(stars, [row, col]);
+    }
+
+    stars.push([4, 4]);
+    stars.push([4, 10]);
+    stars.push([4, 16]);
+    stars.push([10, 4]);
+    stars.push([10, 16]);
+    stars.push([16, 4]);
+    stars.push([16, 10]);
+    stars.push([16, 16]);
+    return _array_contains_tuple(stars, [row, col]);
+}
+
+
 Vue.component('stone', {
     props: ['opacity', 'fill'],
     template: `<g :fill-opacity="opacity">
@@ -322,6 +366,23 @@ Vue.component('board-any', {
                        width="30.0"
                        height="1.0"
                        fill="#533939" />
+               </g>`
+})
+
+
+Vue.component('board-hoshi', {
+    template: `<g>
+                 <rect x="14.5"
+                       y="0.0"
+                       width="1.0"
+                       height="30.0"
+                       fill="#533939" />
+                 <rect x="0.0"
+                       y="14.5"
+                       width="30.0"
+                       height="1.0"
+                       fill="#533939" />
+                 <circle cx="15.0" cy="15.0" r="2.5" fill="#533939" />
                </g>`
 })
 
@@ -403,7 +464,11 @@ Vue.component('board-grid', {
         }
 
         // somewhere in the middle
-        return createElement('board-any');
+        if (_is_hoshi(this.row, this.col, this.num_rows, this.num_columns)) {
+            return createElement('board-hoshi');
+        } else {
+            return createElement('board-any');
+        }
     }
 })
 
